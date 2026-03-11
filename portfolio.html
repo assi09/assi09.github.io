@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karim Assi — Software Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" crossorigin>
 <style>
 /* ─── RESET & BASE ─── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -1661,158 +1662,117 @@ footer {
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- GSAP: try jsDelivr first (reliable), fallback cdnjs -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+(function() {
+  // ── Section order first (no dependency – sections show even if GSAP 404s)
+  var mainEl = document.querySelector('main');
+  if (mainEl) {
+    ['home', 'about', 'experience', 'projects', 'skills', 'education', 'contact'].forEach(function(id) {
+      var sec = document.getElementById(id);
+      if (sec) mainEl.appendChild(sec);
+    });
+  }
 
-// ── Section order (professional layout)
-const mainEl = document.querySelector('main');
-['home', 'about', 'experience', 'projects', 'skills', 'education', 'contact'].forEach(id => {
-  const sec = document.getElementById(id);
-  if (sec) mainEl.appendChild(sec);
-});
+  // ── Scroll progress bar (no GSAP)
+  function updateScrollProgress() {
+    var inner = document.getElementById('scrollProgressInner');
+    var wrap = document.getElementById('scrollProgress');
+    if (!inner || !wrap) return;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var scrollHeight = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+    var p = scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
+    inner.style.transform = 'scaleX(' + p + ')';
+    wrap.style.scale = scrollHeight > 0 ? '1 1' : '0 1';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('resize', updateScrollProgress);
+  updateScrollProgress();
 
-// ── Scroll progress bar (Framer-style: tied to scroll)
-function updateScrollProgress() {
-  const inner = document.getElementById('scrollProgressInner');
-  const wrap = document.getElementById('scrollProgress');
-  if (!inner || !wrap) return;
-  const doc = document.documentElement;
-  const scrollTop = window.scrollY || doc.scrollTop;
-  const scrollHeight = (doc.scrollHeight - window.innerHeight) || 1;
-  const p = scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
-  inner.style.transform = `scaleX(${p})`;
-  wrap.style.scale = scrollHeight > 0 ? '1 1' : '0 1';
-}
-window.addEventListener('scroll', updateScrollProgress, { passive: true });
-window.addEventListener('resize', updateScrollProgress);
-updateScrollProgress();
-
-// ── Active nav on scroll
-const sections = document.querySelectorAll('section[id]');
-const links = document.querySelectorAll('.sidenav .nav-links a');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      links.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`.sidenav .nav-links a[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
-    }
-  });
-}, { rootMargin: '-40% 0px -55% 0px' });
-sections.forEach(s => obs.observe(s));
-
-// ── Framer-style scroll reveals with GSAP ScrollTrigger
-document.querySelectorAll('.reveal').forEach(el => {
-  if (el.matches('h2.section-title')) return; // use scrubbed title animation instead
-  const isStagger = el.classList.contains('reveal-stagger');
-  const children = isStagger ? el.children : null;
-
-  if (isStagger && children && children.length) {
-    gsap.fromTo(children, { opacity: 0, y: 28 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%',
-        end: 'top 60%',
-        toggleActions: 'play none none none'
+  // ── Active nav on scroll
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.sidenav .nav-links a');
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        links.forEach(function(l) { l.classList.remove('active'); });
+        var a = document.querySelector('.sidenav .nav-links a[href="#' + e.target.id + '"]');
+        if (a) a.classList.add('active');
       }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(function(s) { obs.observe(s); });
+
+  // ── Reveals: use GSAP if loaded, else fallback so sections still show
+  function runRevealFallback() {
+    var revs = document.querySelectorAll('.reveal');
+    var rObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          rObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+    revs.forEach(function(el) { rObs.observe(el); });
+  }
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      if (el.matches('h2.section-title')) return;
+      var isStagger = el.classList.contains('reveal-stagger');
+      var children = isStagger ? el.children : null;
+      if (isStagger && children && children.length) {
+        gsap.fromTo(children, { opacity: 0, y: 28 }, {
+          opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 60%', toggleActions: 'play none none none' }
+        });
+      } else {
+        gsap.fromTo(el, { opacity: 0, y: 32 }, {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 55%', toggleActions: 'play none none none' }
+        });
+      }
+    });
+    gsap.to('.hero-content', { y: 90, opacity: 0.65, ease: 'none', scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.2 } });
+    gsap.to('.hero-stats-bar', { y: 50, opacity: 0.5, ease: 'none', scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 } });
+    gsap.to('.hero-bg', { scale: 1.15, ease: 'none', scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.5 } });
+    document.querySelectorAll('h2.section-title.reveal').forEach(function(title) {
+      gsap.fromTo(title, { scale: 0.96, opacity: 0.6 }, { scale: 1, opacity: 1, ease: 'power2.out', scrollTrigger: { trigger: title, start: 'top 85%', end: 'top 50%', scrub: 0.8 } });
     });
   } else {
-    gsap.fromTo(el, { opacity: 0, y: 32 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%',
-        end: 'top 55%',
-        toggleActions: 'play none none none'
-      }
+    runRevealFallback();
+  }
+
+  // ── Mouse parallax on hero shapes (use GSAP if available, else direct style)
+  window.addEventListener('mousemove', function(e) {
+    var x = (e.clientX / window.innerWidth - 0.5) * 24;
+    var y = (e.clientY / window.innerHeight - 0.5) * 24;
+    document.querySelectorAll('.hero-shape').forEach(function(el, i) {
+      var f = (i + 1) * 0.4;
+      if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 0.6, ease: 'power2.out' });
+      else { el.style.transform = 'translate(' + (x * f) + 'px, ' + (y * f) + 'px)'; }
     });
-  }
-});
-
-// ── Hero parallax on scroll (content moves slower = depth, Framer-style)
-gsap.to('.hero-content', {
-  y: 90,
-  opacity: 0.65,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#home',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: 1.2
-  }
-});
-gsap.to('.hero-stats-bar', {
-  y: 50,
-  opacity: 0.5,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#home',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: 1
-  }
-});
-gsap.to('.hero-bg', {
-  scale: 1.15,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#home',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: 1.5
-  }
-});
-
-// ── Scrubbed scale on section titles when entering view (Framer-style)
-document.querySelectorAll('h2.section-title.reveal').forEach(title => {
-  gsap.fromTo(title, { scale: 0.96, opacity: 0.6 }, {
-    scale: 1,
-    opacity: 1,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: title,
-      start: 'top 85%',
-      end: 'top 50%',
-      scrub: 0.8
-    }
   });
-});
+})();
 
-// ── Form
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  const orig = btn.innerHTML;
+  var btn = e.target.querySelector('button');
+  var orig = btn.innerHTML;
   btn.innerHTML = 'Message Sent ✓';
   btn.style.background = 'var(--accent3)';
   btn.style.color = '#fff';
-  setTimeout(() => {
+  setTimeout(function() {
     btn.innerHTML = orig;
     btn.style.background = '';
     btn.style.color = '';
     e.target.reset();
   }, 3000);
 }
-
-// ── Mouse parallax on hero shapes (keep existing feel)
-window.addEventListener('mousemove', e => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 24;
-  const y = (e.clientY / window.innerHeight - 0.5) * 24;
-  document.querySelectorAll('.hero-shape').forEach((el, i) => {
-    const f = (i + 1) * 0.4;
-    gsap.to(el, { x: x * f, y: y * f, duration: 0.6, ease: 'power2.out' });
-  });
-});
 </script>
 
 </body>
