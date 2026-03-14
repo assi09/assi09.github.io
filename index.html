@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff4d00'/><stop offset='100%25' stop-color='%230057ff'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23g)'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|instrument-serif:400,400i|inter:300,400,500,600|space-grotesk:300,400,500,600,700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
 <style>
 /* ─── RESET & BASE ─── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -41,6 +42,139 @@ body {
 @media (pointer: fine) {
   body { cursor: none; }
 }
+
+/* ─── COSMIC INTRO ─── */
+#cosmicIntro {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  background: #000;
+  overflow: hidden;
+  transition: opacity 0.8s ease;
+}
+
+#cosmicIntro.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#cosmicCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-title-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  gap: 0;
+}
+
+.intro-name-line {
+  font-family: var(--display);
+  font-size: clamp(5rem, 14vw, 14rem);
+  color: #fff;
+  letter-spacing: 0.08em;
+  line-height: 0.9;
+  overflow: hidden;
+}
+
+.intro-name-line .ichar {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.6s, transform 0.6s var(--ease-out-expo);
+}
+
+.intro-name-line.animated .ichar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em;
+  margin-top: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s 1.2s, transform 0.8s 1.2s var(--ease-out-expo);
+}
+
+.intro-subtitle.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-scroll-cta {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.8s 1.8s;
+}
+
+.intro-scroll-cta.animated { opacity: 1; }
+
+.intro-scroll-text {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+.intro-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+  animation: introScrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes introScrollPulse {
+  0%,100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.5); opacity: 0.4; }
+}
+
+.intro-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 3;
+}
+
+.intro-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* Hide page loader when intro is active */
+body.has-intro .page-loader { display: none; }
+
+/* Hide sidenav during intro */
+body.has-intro .sidenav { transform: translateX(-100%) !important; opacity: 0 !important; }
+body.has-intro .scroll-progress { opacity: 0; }
+body.has-intro .cursor, body.has-intro .cursor-dot { opacity: 0; }
 
 /* ─── PAGE LOADER ─── */
 .page-loader {
@@ -1626,7 +1760,24 @@ footer {
 .mobile-topbar { display: none; }
 </style>
 </head>
-<body>
+<body class="has-intro">
+
+<!-- COSMIC INTRO -->
+<div id="cosmicIntro">
+  <canvas id="cosmicCanvas"></canvas>
+  <div class="intro-title-overlay" id="introTitle">
+    <div class="intro-name-line" id="introLine1"></div>
+    <div class="intro-name-line" id="introLine2"></div>
+    <div class="intro-subtitle" id="introSub">Software Engineer</div>
+  </div>
+  <div class="intro-scroll-cta" id="introScrollCta">
+    <span class="intro-scroll-text">Scroll to explore</span>
+    <span class="intro-scroll-line"></span>
+  </div>
+  <div class="intro-progress-bar">
+    <div class="intro-progress-fill" id="introProgressFill"></div>
+  </div>
+</div>
 
 <!-- PAGE LOADER -->
 <div class="page-loader" id="pageLoader">
@@ -1685,6 +1836,9 @@ footer {
 
 <main>
 
+  <!-- Intro scroll spacer (removed after intro completes) -->
+  <div id="introSpacer" style="height:250vh;position:relative;z-index:-1;"></div>
+
   <!-- ── HERO ── -->
   <section id="home">
     <div class="hero-bg"></div>
@@ -1723,7 +1877,7 @@ footer {
         <div class="hstat-label">Dean's Honors</div>
       </div>
       <div class="hstat">
-        <div class="hstat-val" data-counter="10" data-suffix="+">0</div>
+        <div class="hstat-val" data-counter="20" data-suffix="+">0</div>
         <div class="hstat-label">Projects Shipped</div>
       </div>
       <div class="hstat">
@@ -1754,7 +1908,7 @@ footer {
           <div class="card-label">Dean's Honors</div>
         </div>
         <div class="about-card">
-          <div class="card-num">10+</div>
+          <div class="card-num">20+</div>
           <div class="card-label">Projects Shipped</div>
         </div>
         <div class="about-card">
@@ -2090,21 +2244,375 @@ footer {
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 
+<!-- ── COSMIC INTRO SCRIPT ── -->
+<script>
+(function() {
+  if (typeof THREE === 'undefined') {
+    // Three.js failed to load — skip intro
+    document.body.classList.remove('has-intro');
+    var ci = document.getElementById('cosmicIntro');
+    if (ci) ci.remove();
+    var sp = document.getElementById('introSpacer');
+    if (sp) sp.remove();
+    return;
+  }
+
+  var intro = document.getElementById('cosmicIntro');
+  var canvas = document.getElementById('cosmicCanvas');
+  var spacer = document.getElementById('introSpacer');
+  var progressFill = document.getElementById('introProgressFill');
+  var introComplete = false;
+  var scene, camera, renderer, stars = [], nebulaMeshes = [], mountains = [];
+  var animId;
+
+  // ── SPLIT TEXT INTO CHARS ──
+  function splitIntoChars(el, text) {
+    el.innerHTML = '';
+    for (var i = 0; i < text.length; i++) {
+      var span = document.createElement('span');
+      span.className = 'ichar';
+      span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+      span.style.transitionDelay = (i * 60) + 'ms';
+      el.appendChild(span);
+    }
+  }
+
+  splitIntoChars(document.getElementById('introLine1'), 'KARIM');
+  splitIntoChars(document.getElementById('introLine2'), 'ASSI');
+
+  // ── INIT THREE.JS ──
+  function initScene() {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var isMobile = w < 820;
+
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x000008, 0.0003);
+
+    camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 2000);
+    camera.position.set(0, 20, 100);
+
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.6;
+
+    createStars(isMobile ? 2000 : 5000);
+    createNebula();
+    createMountains();
+    createAmbientLight();
+  }
+
+  function createStars(count) {
+    for (var layer = 0; layer < 3; layer++) {
+      var geo = new THREE.BufferGeometry();
+      var pos = new Float32Array(count * 3);
+      var cols = new Float32Array(count * 3);
+      var sizes = new Float32Array(count);
+
+      for (var j = 0; j < count; j++) {
+        var r = 150 + Math.random() * 700;
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(Math.random() * 2 - 1);
+        pos[j*3] = r * Math.sin(phi) * Math.cos(theta);
+        pos[j*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        pos[j*3+2] = r * Math.cos(phi);
+
+        var c = new THREE.Color();
+        var pick = Math.random();
+        if (pick < 0.6) c.setHSL(0, 0, 0.85 + Math.random() * 0.15);
+        else if (pick < 0.8) c.setHSL(0.08, 0.6, 0.85); // warm
+        else if (pick < 0.92) c.setHSL(0.6, 0.5, 0.85); // blue
+        else c.setHSL(0.12, 0.8, 0.9); // gold
+        cols[j*3] = c.r; cols[j*3+1] = c.g; cols[j*3+2] = c.b;
+        sizes[j] = Math.random() * 2 + 0.3;
+      }
+
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+
+      var mat = new THREE.PointsMaterial({
+        size: 1.5 - layer * 0.3,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9 - layer * 0.2,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        sizeAttenuation: true
+      });
+
+      var pts = new THREE.Points(geo, mat);
+      pts.userData.layer = layer;
+      scene.add(pts);
+      stars.push(pts);
+    }
+  }
+
+  function createNebula() {
+    var nebulaColors = [
+      { color: 0x0044ff, x: 100, y: 50, z: -400, scale: 350 },
+      { color: 0xff3300, x: -150, y: -30, z: -500, scale: 280 },
+      { color: 0x00cc88, x: 50, y: 80, z: -600, scale: 320 },
+      { color: 0x8800ff, x: -80, y: 40, z: -350, scale: 200 }
+    ];
+
+    nebulaColors.forEach(function(n) {
+      var cvs = document.createElement('canvas');
+      cvs.width = 256; cvs.height = 256;
+      var ctx = cvs.getContext('2d');
+      var grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      var c = new THREE.Color(n.color);
+      grad.addColorStop(0, 'rgba(' + Math.floor(c.r*255) + ',' + Math.floor(c.g*255) + ',' + Math.floor(c.b*255) + ',0.3)');
+      grad.addColorStop(0.4, 'rgba(' + Math.floor(c.r*255) + ',' + Math.floor(c.g*255) + ',' + Math.floor(c.b*255) + ',0.1)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 256, 256);
+
+      var tex = new THREE.CanvasTexture(cvs);
+      var geo = new THREE.PlaneGeometry(n.scale, n.scale);
+      var mat = new THREE.MeshBasicMaterial({
+        map: tex, transparent: true, blending: THREE.AdditiveBlending,
+        depthWrite: false, side: THREE.DoubleSide
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(n.x, n.y, n.z);
+      mesh.userData.basePos = { x: n.x, y: n.y, z: n.z };
+      scene.add(mesh);
+      nebulaMeshes.push(mesh);
+    });
+  }
+
+  function createMountains() {
+    var layers = [
+      { z: -80, h: 50, color: 0x0a0a18 },
+      { z: -140, h: 70, color: 0x0d1025 },
+      { z: -200, h: 90, color: 0x101535 },
+      { z: -280, h: 110, color: 0x131a45 }
+    ];
+
+    layers.forEach(function(l, idx) {
+      var shape = new THREE.Shape();
+      var segs = 60;
+      var w = 800;
+
+      shape.moveTo(-w, -200);
+      for (var i = 0; i <= segs; i++) {
+        var x = (i / segs - 0.5) * w * 2;
+        var y = Math.sin(i * 0.15 + idx) * l.h +
+                Math.sin(i * 0.08 + idx * 2) * l.h * 0.5 +
+                Math.sin(i * 0.3 + idx * 3) * l.h * 0.2 - 60;
+        shape.lineTo(x, y);
+      }
+      shape.lineTo(w, -200);
+      shape.lineTo(-w, -200);
+
+      var geo = new THREE.ShapeGeometry(shape);
+      var mat = new THREE.MeshBasicMaterial({
+        color: l.color, transparent: true, opacity: 1,
+        side: THREE.DoubleSide
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.position.z = l.z;
+      mesh.position.y = -10;
+      mesh.userData.baseZ = l.z;
+      mesh.userData.layer = idx;
+      scene.add(mesh);
+      mountains.push(mesh);
+    });
+  }
+
+  function createAmbientLight() {
+    scene.add(new THREE.AmbientLight(0x111133, 0.5));
+  }
+
+  // ── ANIMATION LOOP ──
+  var time = 0;
+  var currentCamZ = 100, currentCamY = 20;
+
+  function animate() {
+    if (introComplete) return;
+    animId = requestAnimationFrame(animate);
+    time += 0.008;
+
+    // Rotate star layers slowly
+    stars.forEach(function(s, i) {
+      s.rotation.y = time * 0.02 * (1 - i * 0.3);
+      s.rotation.x = Math.sin(time * 0.1) * 0.02;
+    });
+
+    // Sway nebula
+    nebulaMeshes.forEach(function(n, i) {
+      n.position.x = n.userData.basePos.x + Math.sin(time + i * 1.5) * 8;
+      n.position.y = n.userData.basePos.y + Math.cos(time * 0.7 + i) * 5;
+    });
+
+    // Subtle mountain sway
+    mountains.forEach(function(m, i) {
+      m.position.x = Math.sin(time * 0.15 + i) * 3 * (i + 1);
+    });
+
+    // Smooth camera
+    camera.position.z += (currentCamZ - camera.position.z) * 0.04;
+    camera.position.y += (currentCamY - camera.position.y) * 0.04;
+    camera.position.x = Math.sin(time * 0.1) * 3;
+    camera.lookAt(0, 5, -400);
+
+    renderer.render(scene, camera);
+  }
+
+  // ── SCROLL HANDLER ──
+  function onIntroScroll() {
+    if (introComplete) return;
+    var scrollY = window.scrollY || window.pageYOffset;
+    var maxScroll = window.innerHeight * 2.5; // match spacer height
+    var p = Math.min(scrollY / maxScroll, 1);
+
+    // Progress bar
+    if (progressFill) progressFill.style.transform = 'scaleX(' + p + ')';
+
+    // Camera dolly forward
+    currentCamZ = 100 - p * 500;
+    currentCamY = 20 + p * 40;
+
+    // Mountain parallax
+    mountains.forEach(function(m, i) {
+      var speed = 1 + i * 0.8;
+      m.position.z = m.userData.baseZ + scrollY * speed * 0.3;
+    });
+
+    // Nebula push
+    nebulaMeshes.forEach(function(n, i) {
+      n.position.z = n.userData.basePos.z + scrollY * (0.2 + i * 0.1);
+    });
+
+    // Title phases
+    var titleOverlay = document.getElementById('introTitle');
+    var scrollCta = document.getElementById('introScrollCta');
+
+    if (p > 0.3 && titleOverlay) {
+      var fadeP = Math.min((p - 0.3) / 0.3, 1);
+      titleOverlay.style.opacity = 1 - fadeP;
+      titleOverlay.style.transform = 'scale(' + (1 + fadeP * 0.15) + ')';
+    }
+
+    if (p > 0.2 && scrollCta) {
+      scrollCta.style.opacity = Math.max(0, 1 - (p - 0.2) / 0.2);
+    }
+
+    // Complete intro
+    if (p >= 0.95 && !introComplete) {
+      completeIntro();
+    }
+  }
+
+  function completeIntro() {
+    introComplete = true;
+    cancelAnimationFrame(animId);
+
+    // Fade out
+    intro.classList.add('fade-out');
+
+    setTimeout(function() {
+      // Dispose Three.js
+      stars.forEach(function(s) { s.geometry.dispose(); s.material.dispose(); });
+      nebulaMeshes.forEach(function(n) { n.geometry.dispose(); n.material.dispose(); });
+      mountains.forEach(function(m) { m.geometry.dispose(); m.material.dispose(); });
+      renderer.dispose();
+      renderer.forceContextLoss();
+      scene = null; camera = null; renderer = null;
+
+      // Remove intro elements
+      intro.remove();
+
+      // Collapse spacer and reset scroll
+      if (spacer) spacer.style.height = '0';
+      window.scrollTo(0, 0);
+
+      // Remove intro class
+      document.body.classList.remove('has-intro');
+
+      // Refresh GSAP ScrollTrigger
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(function() { ScrollTrigger.refresh(); }, 100);
+      }
+
+      // Trigger portfolio entrance
+      if (typeof window.__startEntrance === 'function') {
+        window.__startEntrance();
+      }
+    }, 800);
+  }
+
+  // ── RESIZE ──
+  function onResize() {
+    if (!camera || !renderer || introComplete) return;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  // ── INIT ──
+  window.addEventListener('load', function() {
+    initScene();
+    animate();
+
+    // Animate title chars in after a beat
+    setTimeout(function() {
+      document.getElementById('introLine1').classList.add('animated');
+    }, 400);
+    setTimeout(function() {
+      document.getElementById('introLine2').classList.add('animated');
+    }, 700);
+    setTimeout(function() {
+      document.getElementById('introSub').classList.add('animated');
+      document.getElementById('introScrollCta').classList.add('animated');
+    }, 900);
+  });
+
+  window.addEventListener('scroll', onIntroScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+
+  // Safety: if user hasn't scrolled in 30s, allow clicking to skip
+  intro.addEventListener('click', function() {
+    if (!introComplete) {
+      window.scrollTo({ top: window.innerHeight * 3, behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+
 <script>
 (function() {
 
-  // ─── PAGE LOADER ───
+  // ─── PAGE LOADER / INTRO HANDOFF ───
   var loader = document.getElementById('pageLoader');
   var entranceFired = false;
+  var hasIntro = document.body.classList.contains('has-intro');
+
   function dismissLoader() {
     if (entranceFired) return;
     entranceFired = true;
     loader.classList.add('done');
-    setTimeout(startEntranceAnimations, 300);
+    if (!hasIntro) {
+      // No intro — go straight to entrance animations
+      setTimeout(startEntranceAnimations, 300);
+    }
+    // If intro is active, entrance will be called from completeIntro()
   }
-  window.addEventListener('load', function() { setTimeout(dismissLoader, 1200); });
-  // Safety: dismiss loader after 2.5s no matter what
-  setTimeout(dismissLoader, 2500);
+
+  // Expose entrance trigger for the intro script
+  window.__startEntrance = function() {
+    startEntranceAnimations();
+  };
+
+  if (hasIntro) {
+    // Hide loader immediately — intro takes over
+    loader.classList.add('done');
+  } else {
+    window.addEventListener('load', function() { setTimeout(dismissLoader, 1200); });
+    setTimeout(dismissLoader, 2500);
+  }
 
   // ─── CUSTOM CURSOR ───
   var cursor = document.getElementById('cursor');
@@ -2273,9 +2781,17 @@ footer {
 
   // ─── ENTRANCE ANIMATIONS ───
   function startEntranceAnimations() {
-    // Show sidenav
+    // Show sidenav (with slight delay for smoothness)
     var sidenav = document.getElementById('sidenav');
-    if (sidenav) sidenav.classList.add('loaded');
+    setTimeout(function() {
+      if (sidenav) sidenav.classList.add('loaded');
+    }, 200);
+
+    // Show cursor
+    var cursorEl = document.getElementById('cursor');
+    var cursorDotEl = document.getElementById('cursorDot');
+    if (cursorEl) cursorEl.style.opacity = '1';
+    if (cursorDotEl) cursorDotEl.style.opacity = '1';
 
     // Always add animated to hero title
     if (heroTitle) heroTitle.classList.add('animated');
@@ -2345,18 +2861,21 @@ footer {
       });
     });
 
-    // Hero parallax on scroll
-    gsap.to('.hero-content', {
-      y: 120, opacity: 0.4, ease: 'none',
-      scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
+    // Hero parallax on scroll — use fromTo so scroll-back restores full opacity
+    gsap.fromTo('.hero-content',
+      { y: 0, opacity: 1 },
+      { y: 120, opacity: 0.4, ease: 'none',
+        scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
     });
-    gsap.to('.hero-stats-bar', {
-      y: 30, opacity: 0.7, ease: 'none',
-      scrollTrigger: { trigger: '#home', start: '60% top', end: 'bottom top', scrub: 1 }
+    gsap.fromTo('.hero-stats-bar',
+      { y: 0, opacity: 1 },
+      { y: 30, opacity: 0.8, ease: 'none',
+        scrollTrigger: { trigger: '#home', start: '60% top', end: 'bottom top', scrub: 1 }
     });
-    gsap.to('.hero-bg', {
-      scale: 1.2, ease: 'none',
-      scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.5 }
+    gsap.fromTo('.hero-bg',
+      { scale: 1 },
+      { scale: 1.2, ease: 'none',
+        scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.5 }
     });
 
     // Parallax on hero shapes
