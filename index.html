@@ -118,39 +118,6 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-.intro-scroll-hint {
-  position: absolute;
-  bottom: 48px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  transition: opacity 0.8s 1.2s ease;
-}
-.intro-scroll-hint.visible { opacity: 1; }
-.intro-scroll-hint.hide { opacity: 0 !important; transition: opacity 0.4s; }
-.intro-scroll-label {
-  font-family: var(--sans);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-}
-.intro-scroll-bar {
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
-  animation: introScrollPulse 2s ease-in-out infinite;
-}
-@keyframes introScrollPulse {
-  0%,100% { transform: scaleY(1); opacity: 1; }
-  50% { transform: scaleY(0.4); opacity: 0.3; }
-}
 .intro-progress {
   position: absolute;
   bottom: 0;
@@ -1772,10 +1739,6 @@ footer {
     </div>
     <div class="intro-role" id="introRole">Software Engineer</div>
   </div>
-  <div class="intro-scroll-hint" id="introScrollHint">
-    <span class="intro-scroll-label">Scroll</span>
-    <span class="intro-scroll-bar"></span>
-  </div>
   <div class="intro-progress">
     <div class="intro-progress-fill" id="introProgressFill"></div>
   </div>
@@ -1839,7 +1802,7 @@ footer {
 <main>
 
   <!-- Intro scroll spacer (removed after intro completes) -->
-  <div id="introSpacer" style="height:200vh;position:relative;z-index:-1;"></div>
+  <div id="introSpacer" style="height:0;position:relative;z-index:-1;"></div>
 
   <!-- ── HERO ── -->
   <section id="home">
@@ -2253,7 +2216,6 @@ footer {
   var canvas = document.getElementById('gradientCanvas');
   var spacer = document.getElementById('introSpacer');
   var progressFill = document.getElementById('introProgressFill');
-  var scrollHint = document.getElementById('introScrollHint');
   var introName = document.getElementById('introName');
   var introRole = document.getElementById('introRole');
 
@@ -2450,32 +2412,24 @@ footer {
     gl.uniform1f(u.u_swirlIterations, preset.swirl === 0 ? 0 : preset.swirlIterations);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-    // Scroll progress
-    var scrollY = window.scrollY || window.pageYOffset;
-    var maxScroll = window.innerHeight * 2;
-    var progress = Math.min(scrollY / maxScroll, 1);
+    // Time-based progress (5 seconds total)
+    var introDuration = 5000;
+    var progress = Math.min(elapsed * 1000 / introDuration, 1);
 
     if (progressFill) progressFill.style.transform = 'scaleX(' + progress + ')';
 
-    // Fade out scroll hint
-    if (scrollHint) {
-      if (progress > 0.08) scrollHint.classList.add('hide');
-      else scrollHint.classList.remove('hide');
+    // Fade out name + role in the last 1.5 seconds
+    if (progress > 0.7) {
+      var fadeOut = (progress - 0.7) / 0.3;
+      if (introName) {
+        introName.style.opacity = 1 - fadeOut;
+        introName.style.transform = 'translateY(' + (-fadeOut * 30) + 'px) scale(' + (1 + fadeOut * 0.1) + ')';
+      }
+      if (introRole) introRole.style.opacity = 1 - fadeOut;
     }
 
-    // Fade out name + role as user scrolls
-    if (introName) {
-      var nameOpacity = Math.max(0, 1 - progress * 3);
-      var nameScale = 1 + progress * 0.15;
-      introName.style.opacity = nameOpacity;
-      introName.style.transform = 'translateY(' + (-progress * 40) + 'px) scale(' + nameScale + ')';
-    }
-    if (introRole) {
-      introRole.style.opacity = Math.max(0, 1 - progress * 4);
-    }
-
-    // Complete when scrolled enough
-    if (progress >= 0.95 && !introComplete) completeIntro();
+    // Auto-dismiss after 5 seconds
+    if (progress >= 1 && !introComplete) completeIntro();
   }
 
   function completeIntro() {
@@ -2494,8 +2448,9 @@ footer {
       canvas.height = 1;
 
       intro.remove();
-      if (spacer) spacer.style.height = '0';
+      if (spacer) spacer.remove();
       window.scrollTo(0, 0);
+      document.body.style.overflow = '';
       document.body.classList.remove('has-intro');
 
       window.removeEventListener('resize', resize);
@@ -2510,20 +2465,17 @@ footer {
   }
 
   // ── Start ──
-  // Show name and hint after brief delay
+  // Prevent scrolling during intro
+  document.body.style.overflow = 'hidden';
+
+  // Show name after brief delay
   setTimeout(function() {
     if (introName) introName.classList.add('visible');
     if (introRole) introRole.classList.add('visible');
-    if (scrollHint) scrollHint.classList.add('visible');
   }, 300);
 
   animId = requestAnimationFrame(render);
   window.addEventListener('resize', resize);
-
-  // Click to skip
-  intro.addEventListener('click', function() {
-    if (!introComplete) window.scrollTo({ top: window.innerHeight * 2.5, behavior: 'smooth' });
-  });
 
 })();
 </script>
