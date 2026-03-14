@@ -1867,7 +1867,7 @@ footer {
 <main>
 
   <!-- Intro scroll spacer (removed after intro completes) -->
-  <div id="introSpacer" style="height:300vh;position:relative;z-index:-1;"></div>
+  <div id="introSpacer" style="height:600vh;position:relative;z-index:-1;"></div>
 
   <!-- ── HERO ── -->
   <section id="home">
@@ -2449,8 +2449,8 @@ footer {
     // Mountains part as progress increases
     // partOffset: how much to split left/right
     var partOffset = 0;
-    if (progress > 0.33) {
-      partOffset = Math.pow((progress - 0.33) / 0.67, 1.5) * W * 0.8;
+    if (progress > 0.55) {
+      partOffset = Math.pow((progress - 0.55) / 0.45, 1.8) * W * 0.8;
     }
 
     for (var l = 0; l < mountainLayers.length; l++) {
@@ -2537,29 +2537,30 @@ footer {
 
     var t = time * 0.001;
     var scrollY = window.scrollY || window.pageYOffset;
-    var maxScroll = window.innerHeight * 3;
+    var maxScroll = window.innerHeight * 6;
     var progress = Math.min(scrollY / maxScroll, 1);
 
     // Progress bar
     if (progressFill) progressFill.style.transform = 'scaleX(' + progress + ')';
 
-    // Section index
+    // Section index (each section gets a third of scroll)
     var section = Math.min(Math.floor(progress * 3), 2);
     setSection(section);
 
-    // Scroll CTA fade
+    // Scroll CTA fade — stays visible longer
     if (scrollCta) {
-      if (progress > 0.05) scrollCta.classList.add('hide');
+      if (progress > 0.12) scrollCta.classList.add('hide');
       else if (scrollCta.classList.contains('show')) scrollCta.classList.remove('hide');
     }
 
-    // Sun brightness: increases with progress
-    var sunBrightness = 0.5 + progress * 1.5;
+    // Sun brightness: ramps up gradually
+    var sunBrightness = 0.4 + progress * 0.8;
+    if (progress > 0.5) sunBrightness += (progress - 0.5) * 2.0;
     sunBrightness = Math.min(sunBrightness, 2.5);
 
-    // White flood in final phase
-    if (progress > 0.85) {
-      var floodAlpha = (progress - 0.85) / 0.15;
+    // White flood only in the very final stretch
+    if (progress > 0.92) {
+      var floodAlpha = (progress - 0.92) / 0.08;
       if (flood) flood.style.opacity = floodAlpha;
     } else {
       if (flood) flood.style.opacity = 0;
@@ -2631,7 +2632,7 @@ footer {
 
   // Click to skip
   intro.addEventListener('click', function() {
-    if (!introComplete) window.scrollTo({ top: window.innerHeight * 3.5, behavior: 'smooth' });
+    if (!introComplete) window.scrollTo({ top: window.innerHeight * 6.5, behavior: 'smooth' });
   });
 
 })();
