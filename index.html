@@ -36,7 +36,10 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   overflow-x: hidden;
-  cursor: none;
+}
+
+@media (pointer: fine) {
+  body { cursor: none; }
 }
 
 /* ─── PAGE LOADER ─── */
@@ -434,23 +437,25 @@ h1.hero-title {
   color: #ffffff;
   letter-spacing: 0.02em;
   margin-bottom: 36px;
-  opacity: 0;
-  transform: translateY(28px);
 }
 
 /* Character animation for hero title */
 h1.hero-title .char {
   display: inline-block;
   opacity: 0;
-  transform: translateY(60px) rotateX(-40deg);
+  transform: translateY(40px);
   transform-origin: bottom center;
-  transition: opacity 0.5s, transform 0.5s var(--ease-out-expo);
+  transition: opacity 0.4s, transform 0.4s var(--ease-out-expo);
 }
 
 h1.hero-title.animated .char {
   opacity: 1;
-  transform: translateY(0) rotateX(0deg);
+  transform: translateY(0);
 }
+
+/* Safety: if animation never fires, show after 3s */
+@keyframes charFallback { to { opacity: 1; transform: none; } }
+h1.hero-title .char { animation: charFallback 0s 3s forwards; }
 
 h1.hero-title .italic-word {
   font-family: var(--serif);
@@ -481,10 +486,7 @@ h1.hero-title .italic-word {
   transform: translateY(28px);
 }
 
-/* ─── MAGNETIC BUTTON ─── */
-.btn-fill, .btn-ghost, .btn-submit, .nav-cta-links a, .proj-featured, .about-card, .proj-row {
-  cursor: none;
-}
+/* ─── BUTTONS ─── */
 
 .btn-fill {
   display: inline-flex; align-items: center; gap: 8px;
@@ -710,14 +712,16 @@ h2.section-title em {
 h2.section-title .char {
   display: inline-block;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.4s, transform 0.5s var(--ease-out-expo);
+  transform: translateY(30px);
+  transition: opacity 0.35s, transform 0.4s var(--ease-out-expo);
 }
 
 h2.section-title.animated .char {
   opacity: 1;
   transform: translateY(0);
 }
+
+h2.section-title .char { animation: charFallback 0s 4s forwards; }
 
 /* ─── ABOUT SECTION ─── */
 #about { background: var(--bg); }
@@ -1501,7 +1505,6 @@ h2.section-title.animated .char {
   font-weight: 700;
   letter-spacing: 0.04em;
   border: none;
-  cursor: none;
   transition: all 0.4s var(--ease-out-expo);
   position: relative;
   overflow: hidden;
@@ -2081,9 +2084,6 @@ footer {
   </div>
 </footer>
 
-<!-- Lenis smooth scroll -->
-<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
 <!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous"></script>
@@ -2091,56 +2091,42 @@ footer {
 <script>
 (function() {
 
-  // ─── LENIS SMOOTH SCROLL ───
-  var lenis;
-  try {
-    lenis = new Lenis({
-      duration: 1.2,
-      easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
-      orientation: 'vertical',
-      smoothWheel: true
-    });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-    // Sync lenis with GSAP ScrollTrigger
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    }
-  } catch(e) {}
-
   // ─── PAGE LOADER ───
   var loader = document.getElementById('pageLoader');
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      loader.classList.add('done');
-      // Trigger entrance animations after loader
-      setTimeout(startEntranceAnimations, 400);
-    }, 1800);
-  });
+  var entranceFired = false;
+  function dismissLoader() {
+    if (entranceFired) return;
+    entranceFired = true;
+    loader.classList.add('done');
+    setTimeout(startEntranceAnimations, 300);
+  }
+  window.addEventListener('load', function() { setTimeout(dismissLoader, 1200); });
+  // Safety: dismiss loader after 2.5s no matter what
+  setTimeout(dismissLoader, 2500);
 
   // ─── CUSTOM CURSOR ───
   var cursor = document.getElementById('cursor');
   var cursorDot = document.getElementById('cursorDot');
   var cx = 0, cy = 0, dx = 0, dy = 0;
 
+  var heroGrid = document.querySelector('.hero-grid');
   document.addEventListener('mousemove', function(e) {
     cx = e.clientX;
     cy = e.clientY;
     cursorDot.style.left = cx + 'px';
     cursorDot.style.top = cy + 'px';
+  });
 
-    // Update hero grid glow
-    var hero = document.getElementById('home');
-    if (hero) {
-      var rect = hero.getBoundingClientRect();
-      hero.querySelector('.hero-grid').style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-      hero.querySelector('.hero-grid').style.setProperty('--my', (e.clientY - rect.top) + 'px');
-    }
+  // Throttled hero grid glow (only when hero visible)
+  var gridRaf;
+  document.addEventListener('mousemove', function(e) {
+    if (gridRaf) return;
+    gridRaf = requestAnimationFrame(function() {
+      gridRaf = null;
+      if (!heroGrid || window.scrollY > window.innerHeight) return;
+      heroGrid.style.setProperty('--mx', e.clientX + 'px');
+      heroGrid.style.setProperty('--my', e.clientY + 'px');
+    });
   });
 
   function animateCursor() {
@@ -2289,10 +2275,17 @@ footer {
     var sidenav = document.getElementById('sidenav');
     if (sidenav) sidenav.classList.add('loaded');
 
+    // Always add animated to hero title
+    if (heroTitle) heroTitle.classList.add('animated');
+
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      // Fallback
+      // Fallback — show everything
       runRevealFallback();
-      if (heroTitle) heroTitle.classList.add('animated');
+      document.querySelectorAll('.hero-tag, .hero-subtitle, .hero-actions, .hero-stats-bar, .hero-scroll-hint').forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      document.querySelectorAll('h2.section-title').forEach(function(t) { t.classList.add('animated'); });
       return;
     }
 
@@ -2440,14 +2433,19 @@ footer {
     revs.forEach(function(el) { rObs.observe(el); });
   }
 
-  // ─── MOUSE PARALLAX ON HERO SHAPES ───
+  // ─── MOUSE PARALLAX ON HERO SHAPES (throttled) ───
+  var shapeRaf;
+  var heroShapes = document.querySelectorAll('.hero-shape');
   window.addEventListener('mousemove', function(e) {
-    var x = (e.clientX / window.innerWidth - 0.5) * 24;
-    var y = (e.clientY / window.innerHeight - 0.5) * 24;
-    document.querySelectorAll('.hero-shape').forEach(function(el, i) {
-      var f = (i + 1) * 0.5;
-      if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 0.8, ease: 'power2.out' });
-      else { el.style.transform = 'translate(' + (x * f) + 'px, ' + (y * f) + 'px)'; }
+    if (shapeRaf || window.scrollY > window.innerHeight) return;
+    shapeRaf = requestAnimationFrame(function() {
+      shapeRaf = null;
+      var x = (e.clientX / window.innerWidth - 0.5) * 20;
+      var y = (e.clientY / window.innerHeight - 0.5) * 20;
+      heroShapes.forEach(function(el, i) {
+        var f = (i + 1) * 0.4;
+        if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 1, ease: 'power2.out' });
+      });
     });
   });
 
