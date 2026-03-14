@@ -43,25 +43,36 @@ body {
 }
 
 /* ─── HORIZON INTRO ─── */
-#cosmicIntro {
+/* ─── ANIMATED GRADIENT INTRO ─── */
+#gradientIntro {
   position: fixed;
   inset: 0;
   z-index: 8000;
-  background: #0a0012;
+  background: #050505;
   overflow: hidden;
-  transition: opacity 0.8s ease;
+  transition: opacity 1s ease;
 }
-#cosmicIntro.fade-out {
+#gradientIntro.fade-out {
   opacity: 0;
   pointer-events: none;
 }
-#horizonCanvas {
+#gradientCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
-.hz-titles {
+.intro-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABnRSTlMCCgkGBAVJOAVJAAAASklEQVQ4y2NgGAWjYBSMglEwCgY/YGRgZBQUYmJiZGQEkYwMjIyMgoKCjIyMIJKBgRFIMjIyAklGRkYGRkFBYEcwMDIyMjAOUQAA1I4HwVwZAkYAAAAASUVORK5CYII=");
+  background-size: 200px;
+  background-repeat: repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 1;
+}
+.intro-overlay {
   position: absolute;
   inset: 0;
   display: flex;
@@ -71,105 +82,76 @@ body {
   z-index: 2;
   pointer-events: none;
 }
-.hz-title {
+.intro-name {
   font-family: var(--display);
-  font-size: clamp(5rem, 16vw, 16rem);
-  color: #c4152a;
-  letter-spacing: 0.08em;
-  line-height: 0.95;
-  position: absolute;
+  font-size: clamp(4rem, 14vw, 14rem);
+  color: #fff;
+  letter-spacing: 0.06em;
+  line-height: 0.9;
+  text-align: center;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(30px) scale(0.96);
+  transition: opacity 0.9s ease, transform 0.9s var(--ease-out-expo);
 }
-.hz-title.active {
+.intro-name.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
-.hz-subtitle {
+.intro-name .intro-first {
+  display: block;
+}
+.intro-name .intro-last {
+  display: block;
+}
+.intro-role {
   font-family: var(--serif);
   font-style: italic;
-  font-size: clamp(1rem, 2.5vw, 1.6rem);
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.06em;
-  position: absolute;
-  top: calc(50% + clamp(3rem, 8vw, 8rem));
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
+  margin-top: 20px;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(15px);
+  transition: opacity 0.8s 0.5s ease, transform 0.8s 0.5s var(--ease-out-expo);
 }
-.hz-subtitle.active {
+.intro-role.visible {
   opacity: 1;
   transform: translateY(0);
 }
-.hz-scroll-cta {
+.intro-scroll-hint {
   position: absolute;
-  bottom: 60px;
+  bottom: 48px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   opacity: 0;
-  transition: opacity 0.8s 1.5s;
+  transition: opacity 0.8s 1.2s ease;
 }
-.hz-scroll-cta.show { opacity: 1; }
-.hz-scroll-cta.hide { opacity: 0 !important; transition: opacity 0.4s; }
-.hz-scroll-text {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-}
-.hz-scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-  animation: hzPulse 2s ease-in-out infinite;
-}
-@keyframes hzPulse {
-  0%,100% { transform: scaleY(1); opacity: 1; }
-  50% { transform: scaleY(0.5); opacity: 0.4; }
-}
-.hz-section-counter {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  z-index: 3;
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.4);
-}
-.hz-side-label {
-  position: absolute;
-  left: 40px;
-  top: 50%;
-  z-index: 3;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
+.intro-scroll-hint.visible { opacity: 1; }
+.intro-scroll-hint.hide { opacity: 0 !important; transition: opacity 0.4s; }
+.intro-scroll-label {
   font-family: var(--sans);
   font-size: 0.6rem;
   font-weight: 600;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  color: rgba(255,255,255,0.3);
 }
-.hz-side-label::before, .hz-side-label::after {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 1px;
-  background: rgba(255,255,255,0.15);
+.intro-scroll-bar {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+  animation: introScrollPulse 2s ease-in-out infinite;
 }
-.hz-progress-bar {
+@keyframes introScrollPulse {
+  0%,100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.4); opacity: 0.3; }
+}
+.intro-progress {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -177,21 +159,12 @@ body {
   height: 2px;
   z-index: 3;
 }
-.hz-progress-fill {
+.intro-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #c4152a, #ff6b35, #ffb347);
+  background: linear-gradient(90deg, #66B3FF, #B566FF, #66B3FF);
   transform-origin: left;
   transform: scaleX(0);
   transition: transform 0.1s linear;
-}
-.hz-white-flood {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  opacity: 0;
-  z-index: 4;
-  pointer-events: none;
-  transition: opacity 0.6s ease;
 }
 
 /* Hide page loader when intro is active */
@@ -1788,25 +1761,24 @@ footer {
 </head>
 <body class="has-intro">
 
-<!-- HORIZON INTRO -->
-<div id="cosmicIntro">
-  <canvas id="horizonCanvas"></canvas>
-  <div class="hz-titles">
-    <div class="hz-title" id="hzTitle0">KARIM</div>
-    <div class="hz-title" id="hzTitle1">ENGINEER</div>
-    <div class="hz-title" id="hzTitle2">CREATOR</div>
+<!-- ANIMATED GRADIENT INTRO -->
+<div id="gradientIntro">
+  <canvas id="gradientCanvas"></canvas>
+  <div class="intro-noise"></div>
+  <div class="intro-overlay">
+    <div class="intro-name" id="introName">
+      <span class="intro-first">KARIM</span>
+      <span class="intro-last">ASSI</span>
+    </div>
+    <div class="intro-role" id="introRole">Software Engineer</div>
   </div>
-  <div class="hz-subtitle" id="hzSubtitle">Software Engineer</div>
-  <div class="hz-scroll-cta" id="hzScrollCta">
-    <span class="hz-scroll-text">SCROLL</span>
-    <span class="hz-scroll-line"></span>
+  <div class="intro-scroll-hint" id="introScrollHint">
+    <span class="intro-scroll-label">Scroll</span>
+    <span class="intro-scroll-bar"></span>
   </div>
-  <div class="hz-section-counter" id="hzCounter">01 / 03</div>
-  <div class="hz-side-label">PORTFOLIO</div>
-  <div class="hz-progress-bar">
-    <div class="hz-progress-fill" id="hzProgressFill"></div>
+  <div class="intro-progress">
+    <div class="intro-progress-fill" id="introProgressFill"></div>
   </div>
-  <div class="hz-white-flood" id="hzFlood"></div>
 </div>
 
 <!-- PAGE LOADER -->
@@ -1867,7 +1839,7 @@ footer {
 <main>
 
   <!-- Intro scroll spacer (removed after intro completes) -->
-  <div id="introSpacer" style="height:600vh;position:relative;z-index:-1;"></div>
+  <div id="introSpacer" style="height:200vh;position:relative;z-index:-1;"></div>
 
   <!-- ── HERO ── -->
   <section id="home">
@@ -2274,308 +2246,236 @@ footer {
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 
-<!-- ── HORIZON INTRO (Canvas 2D, no dependencies) ── -->
+<!-- ── ANIMATED GRADIENT INTRO (WebGL2, no dependencies) ── -->
 <script>
 (function() {
-  var intro = document.getElementById('cosmicIntro');
-  var canvas = document.getElementById('horizonCanvas');
+  var intro = document.getElementById('gradientIntro');
+  var canvas = document.getElementById('gradientCanvas');
   var spacer = document.getElementById('introSpacer');
-  var progressFill = document.getElementById('hzProgressFill');
-  var flood = document.getElementById('hzFlood');
-  var counter = document.getElementById('hzCounter');
-  var scrollCta = document.getElementById('hzScrollCta');
-  var subtitle = document.getElementById('hzSubtitle');
-  var titles = [
-    document.getElementById('hzTitle0'),
-    document.getElementById('hzTitle1'),
-    document.getElementById('hzTitle2')
-  ];
+  var progressFill = document.getElementById('introProgressFill');
+  var scrollHint = document.getElementById('introScrollHint');
+  var introName = document.getElementById('introName');
+  var introRole = document.getElementById('introRole');
 
   if (!intro || !canvas) {
     document.body.classList.remove('has-intro');
     return;
   }
 
-  var ctx = canvas.getContext('2d');
-  var W, H, dpr;
+  var gl = canvas.getContext('webgl2', { premultipliedAlpha: true, alpha: true, antialias: true });
+  if (!gl) {
+    // WebGL2 not supported — skip intro
+    document.body.classList.remove('has-intro');
+    intro.remove();
+    if (spacer) spacer.remove();
+    return;
+  }
+
   var introComplete = false;
   var animId;
-  var currentSection = -1;
 
-  var subtitleTexts = ['Software Engineer', 'Building the future', 'Explore my work'];
+  // ── Preset: Prism ──
+  var preset = {
+    color1: [5/255, 5/255, 5/255, 1],
+    color2: [102/255, 179/255, 255/255, 1],
+    color3: [255/255, 255/255, 255/255, 1],
+    rotation: -50,
+    proportion: 1,
+    scale: 0.01,
+    speed: 30,
+    distortion: 0,
+    swirl: 50,
+    swirlIterations: 16,
+    softness: 47,
+    offset: -299,
+    shape: 0,
+    shapeSize: 45
+  };
 
-  // ── Stars ──
-  var starCount = 200;
-  var stars = [];
-  function initStars() {
-    stars = [];
-    for (var i = 0; i < starCount; i++) {
-      stars.push({
-        x: Math.random(),
-        y: Math.random() * 0.55,
-        r: Math.random() * 1.2 + 0.3,
-        base: Math.random() * 0.6 + 0.4,
-        speed: Math.random() * 2 + 1
-      });
-    }
+  // ── Shaders ──
+  var vertSrc = '#version 300 es\nin vec4 a_position;\nvoid main(){gl_Position=a_position;}';
+
+  var fragSrc = [
+    '#version 300 es',
+    'precision highp float;',
+    'uniform float u_time;',
+    'uniform float u_pixelRatio;',
+    'uniform vec2 u_resolution;',
+    'uniform float u_scale;',
+    'uniform float u_rotation;',
+    'uniform vec4 u_color1;',
+    'uniform vec4 u_color2;',
+    'uniform vec4 u_color3;',
+    'uniform float u_proportion;',
+    'uniform float u_softness;',
+    'uniform float u_shape;',
+    'uniform float u_shapeScale;',
+    'uniform float u_distortion;',
+    'uniform float u_swirl;',
+    'uniform float u_swirlIterations;',
+    'out vec4 fragColor;',
+    '#define TWO_PI 6.28318530718',
+    '#define PI 3.14159265358979323846',
+    'vec2 rotate(vec2 uv,float th){return mat2(cos(th),sin(th),-sin(th),cos(th))*uv;}',
+    'float random(vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}',
+    'float noise(vec2 st){',
+    '  vec2 i=floor(st);vec2 f=fract(st);',
+    '  float a=random(i);float b=random(i+vec2(1.0,0.0));',
+    '  float c=random(i+vec2(0.0,1.0));float d=random(i+vec2(1.0,1.0));',
+    '  vec2 u=f*f*(3.0-2.0*f);',
+    '  return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);',
+    '}',
+    'vec4 blend_colors(vec4 c1,vec4 c2,vec4 c3,float mixer,float edgesWidth,float edge_blur){',
+    '  vec3 color1=c1.rgb*c1.a;vec3 color2=c2.rgb*c2.a;vec3 color3=c3.rgb*c3.a;',
+    '  float r1=smoothstep(.0+.35*edgesWidth,.7-.35*edgesWidth+.5*edge_blur,mixer);',
+    '  float r2=smoothstep(.3+.35*edgesWidth,1.-.35*edgesWidth+edge_blur,mixer);',
+    '  vec3 bc2=mix(color1,color2,r1);float bo2=mix(c1.a,c2.a,r1);',
+    '  vec3 c=mix(bc2,color3,r2);float o=mix(bo2,c3.a,r2);',
+    '  return vec4(c,o);',
+    '}',
+    'void main(){',
+    '  vec2 uv=gl_FragCoord.xy/u_resolution.xy;',
+    '  float t=.5*u_time;',
+    '  float noise_scale=.0005+.006*u_scale;',
+    '  uv-=.5;',
+    '  uv*=(noise_scale*u_resolution);',
+    '  uv=rotate(uv,u_rotation*.5*PI);',
+    '  uv/=u_pixelRatio;',
+    '  uv+=.5;',
+    '  float n1=noise(uv*1.+t);',
+    '  float n2=noise(uv*2.-t);',
+    '  float angle=n1*TWO_PI;',
+    '  uv.x+=4.*u_distortion*n2*cos(angle);',
+    '  uv.y+=4.*u_distortion*n2*sin(angle);',
+    '  float iterations_number=ceil(clamp(u_swirlIterations,1.,30.));',
+    '  for(float i=1.;i<=30.;i++){',
+    '    if(i>iterations_number)break;',
+    '    uv.x+=clamp(u_swirl,0.,2.)/i*cos(t+i*1.5*uv.y);',
+    '    uv.y+=clamp(u_swirl,0.,2.)/i*cos(t+i*1.*uv.x);',
+    '  }',
+    '  float proportion=clamp(u_proportion,0.,1.);',
+    '  float shape=0.;float mixer=0.;',
+    '  if(u_shape<.5){',
+    '    vec2 cs=uv*(.5+3.5*u_shapeScale);',
+    '    shape=.5+.5*sin(cs.x)*cos(cs.y);',
+    '    mixer=shape+.48*sign(proportion-.5)*pow(abs(proportion-.5),.5);',
+    '  }else if(u_shape<1.5){',
+    '    vec2 ss=uv*(.25+3.*u_shapeScale);',
+    '    float f=fract(ss.y);',
+    '    shape=smoothstep(.0,.55,f)*smoothstep(1.,.45,f);',
+    '    mixer=shape+.48*sign(proportion-.5)*pow(abs(proportion-.5),.5);',
+    '  }else{',
+    '    float sh=1.-uv.y;sh-=.5;sh/=(noise_scale*u_resolution.y);sh+=.5;',
+    '    float ss2=.2*(1.-u_shapeScale);',
+    '    shape=smoothstep(.45-ss2,.55+ss2,sh+.3*(proportion-.5));',
+    '    mixer=shape;',
+    '  }',
+    '  vec4 cm=blend_colors(u_color1,u_color2,u_color3,mixer,1.-clamp(u_softness,0.,1.),.01+.01*u_scale);',
+    '  fragColor=vec4(cm.rgb,cm.a);',
+    '}'
+  ].join('\n');
+
+  // Compile shaders
+  function compileShader(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
   }
 
-  // ── Mountains ──
-  // 4 layers, generated once, stored as arrays of {x, y} in normalized coords
-  var mountainLayers = [];
-  function initMountains() {
-    mountainLayers = [];
-    var configs = [
-      { yBase: 0.72, height: 0.18, color: [12, 8, 24], segments: 80, opacity: 0.4 },   // back
-      { yBase: 0.76, height: 0.16, color: [18, 12, 35], segments: 70, opacity: 0.6 },
-      { yBase: 0.80, height: 0.14, color: [24, 14, 40], segments: 60, opacity: 0.85 },
-      { yBase: 0.84, height: 0.12, color: [14, 8, 22], segments: 50, opacity: 1.0 }    // front
-    ];
-    for (var c = 0; c < configs.length; c++) {
-      var cfg = configs[c];
-      var pts = [];
-      var segs = cfg.segments;
-      for (var i = 0; i <= segs; i++) {
-        var nx = i / segs;
-        // jagged peaks via layered sine + random
-        var peak = Math.sin(nx * 8 + c * 2) * 0.4
-                 + Math.sin(nx * 15 + c * 5) * 0.25
-                 + Math.sin(nx * 25 + c * 3) * 0.15
-                 + (Math.random() - 0.5) * 0.2;
-        peak = Math.max(peak, 0);
-        var ny = cfg.yBase - peak * cfg.height;
-        pts.push({ x: nx, y: ny });
-      }
-      mountainLayers.push({
-        points: pts,
-        color: cfg.color,
-        opacity: cfg.opacity,
-        parallaxSpeed: 0.15 + c * 0.25  // back moves slow, front moves fast
-      });
-    }
-  }
+  var vs = compileShader(gl.VERTEX_SHADER, vertSrc);
+  var fs = compileShader(gl.FRAGMENT_SHADER, fragSrc);
 
-  // ── Resize ──
+  var program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  gl.useProgram(program);
+
+  // Full-screen quad
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+  var posLoc = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  // Uniforms
+  var u = {};
+  ['u_time','u_resolution','u_pixelRatio','u_scale','u_rotation',
+   'u_color1','u_color2','u_color3','u_proportion','u_softness',
+   'u_shape','u_shapeScale','u_distortion','u_swirl','u_swirlIterations'].forEach(function(name) {
+    u[name] = gl.getUniformLocation(program, name);
+  });
+
+  // Resize
   function resize() {
     if (introComplete) return;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var w = intro.clientWidth;
+    var h = intro.clientHeight;
+    var pr = window.devicePixelRatio || 1;
+    canvas.width = w * pr;
+    canvas.height = h * pr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    gl.viewport(0, 0, canvas.width, canvas.height);
   }
+  resize();
 
-  // ── Draw sky gradient ──
-  function drawSky(sunBrightness) {
-    // Linear gradient from dark purple top to warm horizon
-    var grad = ctx.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0, 'rgb(8, 4, 20)');
-    grad.addColorStop(0.3, 'rgb(20, 10, 50)');
-    grad.addColorStop(0.55, 'rgb(50, 20, 70)');
-    grad.addColorStop(0.72, 'rgb(120, 50, 60)');
-    grad.addColorStop(0.82, 'rgb(200, 100, 50)');
-    grad.addColorStop(1, 'rgb(240, 160, 80)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-  }
+  var startTime = performance.now();
 
-  // ── Draw sun glow ──
-  function drawSun(sunBrightness) {
-    var cx = W / 2;
-    var cy = H * 0.78;
-    // Outer glow
-    var r1 = Math.max(W, H) * 0.5;
-    var g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r1);
-    g1.addColorStop(0, 'rgba(255, 220, 150, ' + (0.6 * sunBrightness) + ')');
-    g1.addColorStop(0.15, 'rgba(255, 160, 60, ' + (0.3 * sunBrightness) + ')');
-    g1.addColorStop(0.4, 'rgba(200, 80, 60, ' + (0.1 * sunBrightness) + ')');
-    g1.addColorStop(1, 'rgba(100, 30, 60, 0)');
-    ctx.fillStyle = g1;
-    ctx.fillRect(0, 0, W, H);
-
-    // Inner bright core
-    var r2 = 60 * sunBrightness + 20;
-    var g2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r2);
-    g2.addColorStop(0, 'rgba(255, 255, 240, ' + (0.9 * sunBrightness) + ')');
-    g2.addColorStop(0.4, 'rgba(255, 200, 100, ' + (0.5 * sunBrightness) + ')');
-    g2.addColorStop(1, 'rgba(255, 140, 50, 0)');
-    ctx.fillStyle = g2;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r2, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // ── Draw light rays from sun ──
-  function drawRays(sunBrightness, time) {
-    if (sunBrightness < 0.3) return;
-    var cx = W / 2;
-    var cy = H * 0.78;
-    var rayCount = 12;
-    ctx.save();
-    ctx.globalAlpha = 0.08 * sunBrightness;
-    ctx.fillStyle = 'rgba(255, 200, 120, 1)';
-    for (var i = 0; i < rayCount; i++) {
-      var angle = (i / rayCount) * Math.PI * 2 + time * 0.05;
-      var len = 300 + Math.sin(time * 0.8 + i) * 80;
-      var spread = 0.04;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + Math.cos(angle - spread) * len, cy + Math.sin(angle - spread) * len);
-      ctx.lineTo(cx + Math.cos(angle + spread) * len, cy + Math.sin(angle + spread) * len);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-  }
-
-  // ── Draw stars ──
-  function drawStars(time, progress) {
-    var starAlpha = Math.max(0, 1 - progress * 2);
-    if (starAlpha <= 0) return;
-    for (var i = 0; i < stars.length; i++) {
-      var s = stars[i];
-      var twinkle = s.base + Math.sin(time * s.speed + i) * 0.3;
-      twinkle = Math.max(0, Math.min(1, twinkle)) * starAlpha;
-      ctx.beginPath();
-      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + twinkle + ')';
-      ctx.fill();
-    }
-  }
-
-  // ── Draw mountains ──
-  function drawMountains(progress, time) {
-    // Mountains part as progress increases
-    // partOffset: how much to split left/right
-    var partOffset = 0;
-    if (progress > 0.55) {
-      partOffset = Math.pow((progress - 0.55) / 0.45, 1.8) * W * 0.8;
-    }
-
-    for (var l = 0; l < mountainLayers.length; l++) {
-      var layer = mountainLayers[l];
-      var speed = layer.parallaxSpeed;
-      var xShift = partOffset * speed;
-
-      // Haze between layers
-      if (l > 0) {
-        var hazeAlpha = 0.04 * (4 - l);
-        var hazeY = layer.points[0].y * H - 20;
-        var hazeGrad = ctx.createLinearGradient(0, hazeY - 40, 0, hazeY + 60);
-        hazeGrad.addColorStop(0, 'rgba(140, 80, 140, 0)');
-        hazeGrad.addColorStop(0.5, 'rgba(140, 80, 140, ' + hazeAlpha + ')');
-        hazeGrad.addColorStop(1, 'rgba(140, 80, 140, 0)');
-        ctx.fillStyle = hazeGrad;
-        ctx.fillRect(0, hazeY - 40, W, 100);
-      }
-
-      var col = layer.color;
-      ctx.fillStyle = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + layer.opacity + ')';
-
-      // Draw left half (shifts left)
-      ctx.beginPath();
-      var pts = layer.points;
-      var first = true;
-      for (var i = 0; i < pts.length; i++) {
-        var px = pts[i].x * W - xShift;
-        var py = pts[i].y * H + Math.sin(time * 0.3 + i * 0.2 + l) * 1.5;
-        if (first) { ctx.moveTo(px, py); first = false; }
-        else ctx.lineTo(px, py);
-      }
-      ctx.lineTo(W * 0.5 - xShift, H + 10);
-      ctx.lineTo(-W * 0.5 - xShift, H + 10);
-      ctx.closePath();
-      ctx.fill();
-
-      // Draw right half (shifts right) — mirror
-      ctx.beginPath();
-      first = true;
-      for (var i = pts.length - 1; i >= 0; i--) {
-        var px = (1 - pts[i].x) * W + xShift;
-        var py = pts[i].y * H + Math.sin(time * 0.3 + i * 0.2 + l + 3) * 1.5;
-        if (first) { ctx.moveTo(px, py); first = false; }
-        else ctx.lineTo(px, py);
-      }
-      ctx.lineTo(W * 1.5 + xShift, H + 10);
-      ctx.lineTo(W * 0.5 + xShift, H + 10);
-      ctx.closePath();
-      ctx.fill();
-    }
-  }
-
-  // ── Section management ──
-  function setSection(idx) {
-    if (idx === currentSection) return;
-    currentSection = idx;
-
-    // Update counter
-    if (counter) counter.textContent = '0' + (idx + 1) + ' / 03';
-
-    // Update titles
-    for (var i = 0; i < titles.length; i++) {
-      if (titles[i]) {
-        if (i === idx) titles[i].classList.add('active');
-        else titles[i].classList.remove('active');
-      }
-    }
-
-    // Update subtitle
-    if (subtitle) {
-      subtitle.classList.remove('active');
-      setTimeout(function() {
-        subtitle.textContent = subtitleTexts[idx] || '';
-        subtitle.classList.add('active');
-      }, 200);
-    }
-  }
-
-  // ── Main render ──
-  function render(time) {
+  // ── Animation loop ──
+  function render(now) {
     if (introComplete) return;
     animId = requestAnimationFrame(render);
 
-    var t = time * 0.001;
+    var elapsed = (now - startTime) / 1000;
+    var speed = (preset.speed / 100) * 5;
+    var t = elapsed * speed + preset.offset * 0.01;
+
+    gl.uniform1f(u.u_time, t);
+    gl.uniform2f(u.u_resolution, canvas.width, canvas.height);
+    gl.uniform1f(u.u_pixelRatio, window.devicePixelRatio || 1);
+    gl.uniform1f(u.u_scale, preset.scale);
+    gl.uniform1f(u.u_rotation, (preset.rotation * Math.PI) / 180);
+    gl.uniform4f(u.u_color1, preset.color1[0], preset.color1[1], preset.color1[2], preset.color1[3]);
+    gl.uniform4f(u.u_color2, preset.color2[0], preset.color2[1], preset.color2[2], preset.color2[3]);
+    gl.uniform4f(u.u_color3, preset.color3[0], preset.color3[1], preset.color3[2], preset.color3[3]);
+    gl.uniform1f(u.u_proportion, preset.proportion / 100);
+    gl.uniform1f(u.u_softness, preset.softness / 100);
+    gl.uniform1f(u.u_shape, preset.shape);
+    gl.uniform1f(u.u_shapeScale, preset.shapeSize / 100);
+    gl.uniform1f(u.u_distortion, preset.distortion / 50);
+    gl.uniform1f(u.u_swirl, preset.swirl / 100);
+    gl.uniform1f(u.u_swirlIterations, preset.swirl === 0 ? 0 : preset.swirlIterations);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    // Scroll progress
     var scrollY = window.scrollY || window.pageYOffset;
-    var maxScroll = window.innerHeight * 6;
+    var maxScroll = window.innerHeight * 2;
     var progress = Math.min(scrollY / maxScroll, 1);
 
-    // Progress bar
     if (progressFill) progressFill.style.transform = 'scaleX(' + progress + ')';
 
-    // Section index (each section gets a third of scroll)
-    var section = Math.min(Math.floor(progress * 3), 2);
-    setSection(section);
-
-    // Scroll CTA fade — stays visible longer
-    if (scrollCta) {
-      if (progress > 0.12) scrollCta.classList.add('hide');
-      else if (scrollCta.classList.contains('show')) scrollCta.classList.remove('hide');
+    // Fade out scroll hint
+    if (scrollHint) {
+      if (progress > 0.08) scrollHint.classList.add('hide');
+      else scrollHint.classList.remove('hide');
     }
 
-    // Sun brightness: ramps up gradually
-    var sunBrightness = 0.4 + progress * 0.8;
-    if (progress > 0.5) sunBrightness += (progress - 0.5) * 2.0;
-    sunBrightness = Math.min(sunBrightness, 2.5);
-
-    // White flood only in the very final stretch
-    if (progress > 0.92) {
-      var floodAlpha = (progress - 0.92) / 0.08;
-      if (flood) flood.style.opacity = floodAlpha;
-    } else {
-      if (flood) flood.style.opacity = 0;
+    // Fade out name + role as user scrolls
+    if (introName) {
+      var nameOpacity = Math.max(0, 1 - progress * 3);
+      var nameScale = 1 + progress * 0.15;
+      introName.style.opacity = nameOpacity;
+      introName.style.transform = 'translateY(' + (-progress * 40) + 'px) scale(' + nameScale + ')';
+    }
+    if (introRole) {
+      introRole.style.opacity = Math.max(0, 1 - progress * 4);
     }
 
-    // ── Draw frame ──
-    ctx.clearRect(0, 0, W, H);
-    drawSky(sunBrightness);
-    drawStars(t, progress);
-    drawRays(sunBrightness, t);
-    drawSun(sunBrightness);
-    drawMountains(progress, t);
-
-    // Complete
-    if (progress >= 0.97 && !introComplete) completeIntro();
+    // Complete when scrolled enough
+    if (progress >= 0.95 && !introComplete) completeIntro();
   }
 
   function completeIntro() {
@@ -2584,8 +2484,12 @@ footer {
     intro.classList.add('fade-out');
 
     setTimeout(function() {
-      // Dispose canvas
-      ctx = null;
+      // Dispose WebGL
+      gl.deleteProgram(program);
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      gl.deleteBuffer(buf);
+      try { gl.getExtension('WEBGL_lose_context').loseContext(); } catch(e) {}
       canvas.width = 1;
       canvas.height = 1;
 
@@ -2594,7 +2498,6 @@ footer {
       window.scrollTo(0, 0);
       document.body.classList.remove('has-intro');
 
-      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', resize);
 
       if (typeof ScrollTrigger !== 'undefined') {
@@ -2603,36 +2506,23 @@ footer {
       if (typeof window.__startEntrance === 'function') {
         window.__startEntrance();
       }
-    }, 800);
+    }, 1000);
   }
 
-  function onScroll() {
-    // scroll is handled in render loop via scrollY read
-  }
-
-  // ── Init ──
-  initStars();
-  initMountains();
-  resize();
-
-  // Show first title + subtitle after brief delay
+  // ── Start ──
+  // Show name and hint after brief delay
   setTimeout(function() {
-    setSection(0);
-    if (subtitle) {
-      subtitle.textContent = subtitleTexts[0];
-      subtitle.classList.add('active');
-    }
-    if (scrollCta) scrollCta.classList.add('show');
-  }, 400);
+    if (introName) introName.classList.add('visible');
+    if (introRole) introRole.classList.add('visible');
+    if (scrollHint) scrollHint.classList.add('visible');
+  }, 300);
 
   animId = requestAnimationFrame(render);
-
-  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', resize);
 
   // Click to skip
   intro.addEventListener('click', function() {
-    if (!introComplete) window.scrollTo({ top: window.innerHeight * 6.5, behavior: 'smooth' });
+    if (!introComplete) window.scrollTo({ top: window.innerHeight * 2.5, behavior: 'smooth' });
   });
 
 })();
