@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff4d00'/><stop offset='100%25' stop-color='%230057ff'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23g)'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|instrument-serif:400,400i|inter:300,400,500,600|space-grotesk:300,400,500,600,700&display=swap">
-<script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <style>
 /* ─── RESET & BASE ─── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -2248,12 +2248,23 @@ footer {
 <script>
 (function() {
   if (typeof THREE === 'undefined') {
-    // Three.js failed to load — skip intro
+    // Three.js failed to load — skip intro, fall back to simple loader
     document.body.classList.remove('has-intro');
     var ci = document.getElementById('cosmicIntro');
     if (ci) ci.remove();
     var sp = document.getElementById('introSpacer');
     if (sp) sp.remove();
+    // Show loader briefly then trigger entrance
+    var pl = document.getElementById('pageLoader');
+    if (pl) {
+      pl.style.display = '';
+      setTimeout(function() {
+        pl.classList.add('done');
+        setTimeout(function() {
+          if (typeof window.__startEntrance === 'function') window.__startEntrance();
+        }, 300);
+      }, 1200);
+    }
     return;
   }
 
