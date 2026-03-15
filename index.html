@@ -2004,12 +2004,12 @@ footer {
 </head>
 <body class="has-intro">
 <script>
-if(window.location.hash){history.replaceState(null,null,' ');}
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+if(window.location.hash) history.replaceState(null,null,' ');
 document.documentElement.style.scrollBehavior='auto';
 window.scrollTo(0,0);
-requestAnimationFrame(function(){window.scrollTo(0,0);
-  setTimeout(function(){document.documentElement.style.scrollBehavior='';},100);
-});
+window.addEventListener('beforeunload',function(){window.scrollTo(0,0);});
+setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
 </script>
 
 <!-- ANIMATED GRADIENT INTRO -->
