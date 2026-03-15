@@ -2888,28 +2888,37 @@ footer {
       });
     });
 
-    // Hero parallax on scroll — use fromTo so scroll-back restores full opacity
+    // Hero parallax on scroll
     gsap.fromTo('.hero-content',
       { y: 0, opacity: 1 },
-      { y: 120, opacity: 0.4, ease: 'none',
-        scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
+      { y: 120, opacity: 0.4, ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1,
+          onLeaveBack: function() {
+            gsap.set('.hero-content', { y: 0, opacity: 1 });
+          }
+        }
     });
     gsap.fromTo('.hero-stats-bar',
       { y: 0, opacity: 1 },
-      { y: 30, opacity: 0.8, ease: 'none',
-        scrollTrigger: { trigger: '#home', start: '60% top', end: 'bottom top', scrub: 1 }
+      { y: 30, opacity: 0.8, ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: '#home', start: '60% top', end: 'bottom top', scrub: 1,
+          onLeaveBack: function() {
+            gsap.set('.hero-stats-bar', { y: 0, opacity: 1 });
+          }
+        }
     });
     gsap.fromTo('.hero-bg',
       { scale: 1 },
-      { scale: 1.2, ease: 'none',
+      { scale: 1.2, ease: 'none', immediateRender: false,
         scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.5 }
     });
 
     // Parallax on hero shapes
     document.querySelectorAll('.hero-shape').forEach(function(shape, i) {
-      gsap.to(shape, {
-        y: -80 * (i + 1), ease: 'none',
-        scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
+      gsap.fromTo(shape,
+        { y: 0 },
+        { y: -80 * (i + 1), ease: 'none', immediateRender: false,
+          scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
       });
     });
 
