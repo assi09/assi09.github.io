@@ -1838,8 +1838,6 @@ footer {
 .mobile-topbar { display: none; }
 
 /* ─── LENIS SMOOTH SCROLL ─── */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto; }
 
 /* ─── REVEAL TEXT (clip-path mask) ─── */
 .reveal-text {
@@ -2531,7 +2529,6 @@ html.lenis, html.lenis body { height: auto; }
 </footer>
 
 <!-- LENIS SMOOTH SCROLL -->
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" crossorigin="anonymous"></script>
 
 <!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
@@ -2822,7 +2819,7 @@ html.lenis, html.lenis body { height: auto; }
     loader.classList.add('done');
     if (!hasIntro) {
       // No intro — go straight to entrance animations
-      setTimeout(function() { startEntranceAnimations(); initLenis(); }, 300);
+      setTimeout(function() { startEntranceAnimations(); }, 300);
     }
     // If intro is active, entrance will be called from completeIntro()
   }
@@ -2830,7 +2827,6 @@ html.lenis, html.lenis body { height: auto; }
   // Expose entrance trigger for the intro script
   window.__startEntrance = function() {
     startEntranceAnimations();
-    initLenis();
   };
 
   if (hasIntro) {
@@ -2866,11 +2862,38 @@ html.lenis, html.lenis body { height: auto; }
     });
   });
 
+  // Trail setup (merged into cursor loop)
+  var _trails = [];
+  if (window.matchMedia('(pointer: fine)').matches) {
+    for (var _ti = 0; _ti < 6; _ti++) {
+      var _te = document.getElementById('trail' + _ti);
+      if (_te) {
+        var _sz = Math.max(3, 7 - _ti);
+        _te.style.width = _sz + 'px';
+        _te.style.height = _sz + 'px';
+        _te.style.opacity = String(Math.max(0.05, 0.2 - _ti * 0.03));
+        _trails.push({ el: _te, x: 0, y: 0 });
+      }
+    }
+  }
+
   function animateCursor() {
     dx += (cx - dx) * 0.15;
     dy += (cy - dy) * 0.15;
     cursor.style.left = dx + 'px';
     cursor.style.top = dy + 'px';
+    // Trail follows cursor
+    var px = cx, py = cy;
+    for (var i = 0; i < _trails.length; i++) {
+      var t = _trails[i];
+      var ease = 0.18 - i * 0.02;
+      t.x += (px - t.x) * ease;
+      t.y += (py - t.y) * ease;
+      t.el.style.left = t.x + 'px';
+      t.el.style.top = t.y + 'px';
+      px = t.x;
+      py = t.y;
+    }
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
@@ -3275,49 +3298,6 @@ html.lenis, html.lenis body { height: auto; }
   });
 
   // ─── LENIS SMOOTH SCROLL (initialized after intro) ───
-  var lenisInstance = null;
-  function initLenis() {
-    if (lenisInstance) return;
-    if (typeof Lenis === 'undefined') return;
-    lenisInstance = new Lenis({ duration: 1.2, easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smooth: true });
-    if (typeof ScrollTrigger !== 'undefined') {
-      lenisInstance.on('scroll', ScrollTrigger.update);
-    }
-    function raf(time) { lenisInstance.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    // Smooth nav click transitions
-    document.querySelectorAll('.nav-links a').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        var href = link.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          var target = document.querySelector(href);
-          if (target && lenisInstance) {
-            // Brief scale-down effect on main content
-            var mainContent = document.querySelector('main');
-            if (mainContent && typeof gsap !== 'undefined') {
-              gsap.to(mainContent, { scale: 0.98, duration: 0.2, ease: 'power2.in', onComplete: function() {
-                gsap.to(mainContent, { scale: 1, duration: 0.4, ease: 'power2.out' });
-              }});
-            }
-            lenisInstance.scrollTo(target, { offset: -24 });
-          }
-        }
-      });
-    });
-    // Also handle CTA banner links
-    document.querySelectorAll('.cta-banner-actions a[href^="#"]').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        var href = link.getAttribute('href');
-        if (href && href.startsWith('#') && lenisInstance) {
-          e.preventDefault();
-          var target = document.querySelector(href);
-          if (target) lenisInstance.scrollTo(target, { offset: -24 });
-        }
-      });
-    });
-  }
-
   // ─── MAGNETIC NAV LINKS ───
   document.querySelectorAll('.nav-links a').forEach(function(link) {
     link.addEventListener('mousemove', function(e) {
@@ -3348,48 +3328,6 @@ html.lenis, html.lenis body { height: auto; }
     });
   }
 
-  // ─── CURSOR TRAIL EFFECT (desktop only) ───
-  (function() {
-    if (!window.matchMedia('(pointer: fine)').matches) return;
-    var trailCount = 6;
-    var trails = [];
-    for (var i = 0; i < trailCount; i++) {
-      var el = document.getElementById('trail' + i);
-      if (el) {
-        var size = Math.max(3, 7 - i);
-        el.style.width = size + 'px';
-        el.style.height = size + 'px';
-        el.style.opacity = String(Math.max(0.05, 0.2 - i * 0.03));
-        trails.push({ el: el, x: 0, y: 0 });
-      }
-    }
-    if (!trails.length) return;
-    var mouseX = 0, mouseY = 0, active = false;
-    document.addEventListener('mousemove', function(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!active) {
-        active = true;
-        trails.forEach(function(t) { t.el.style.opacity = t.el.style.opacity; });
-      }
-    });
-    function animateTrails() {
-      var prevX = mouseX, prevY = mouseY;
-      for (var i = 0; i < trails.length; i++) {
-        var t = trails[i];
-        var ease = 0.2 - i * 0.02;
-        t.x += (prevX - t.x) * ease;
-        t.y += (prevY - t.y) * ease;
-        t.el.style.left = t.x + 'px';
-        t.el.style.top = t.y + 'px';
-        t.el.style.transform = 'translate(-50%, -50%)';
-        prevX = t.x;
-        prevY = t.y;
-      }
-      requestAnimationFrame(animateTrails);
-    }
-    animateTrails();
-  })();
 
   // ─── ANIMATED FAVICON ───
   (function() {
