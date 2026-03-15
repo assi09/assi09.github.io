@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | Karim Assi</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff4d00'/><stop offset='100%25' stop-color='%230057ff'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23g)'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|space-grotesk:400,600&display=swap">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #111; --muted: #999; --bg: #fafaf8; --white: #fff;
+    --accent: #ff4d00; --accent2: #0057ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #eee; --muted: #777; --bg: #0e0e12; --white: #161619; }
+  }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 40px 24px;
+  }
+  .code {
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-size: clamp(8rem, 20vw, 16rem);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  h1 {
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  p {
+    color: var(--muted); font-size: 1rem; line-height: 1.6;
+    max-width: 400px; margin-bottom: 40px;
+  }
+  a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; background: var(--ink); color: var(--bg);
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em;
+    text-decoration: none; transition: all 0.3s;
+  }
+  a:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); gap: 14px; }
+  .glitch { position: relative; }
+  .glitch::before, .glitch::after {
+    content: '404'; position: absolute; top: 0; left: 0; right: 0;
+    background: var(--bg); overflow: hidden;
+  }
+  .glitch::before {
+    animation: glitch-top 3s ease-in-out infinite;
+    clip-path: inset(0 0 60% 0);
+    color: var(--accent);
+  }
+  .glitch::after {
+    animation: glitch-bottom 3s ease-in-out infinite 0.15s;
+    clip-path: inset(60% 0 0 0);
+    color: var(--accent2);
+  }
+  @keyframes glitch-top {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(-4px, -2px); }
+    94% { transform: translate(4px, 2px); }
+    96% { transform: translate(-2px, 1px); }
+  }
+  @keyframes glitch-bottom {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(4px, 2px); }
+    94% { transform: translate(-4px, -1px); }
+    96% { transform: translate(2px, -2px); }
+  }
+</style>
+</head>
+<body>
+  <div class="code glitch">404</div>
+  <h1>PAGE NOT FOUND</h1>
+  <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
+  <a href="index.html">Back to Portfolio →</a>
+</body>
+</html>
