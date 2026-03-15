@@ -6,7 +6,7 @@
 <title>Karim Assi — Software Engineer</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff4d00'/><stop offset='100%25' stop-color='%230057ff'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23g)'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.bunny.net">
-<link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|instrument-serif:400,400i|inter:300,400,500,600|space-grotesk:300,400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|instrument-serif:400,400i|inter:300,400,500,600|space-grotesk:300,400,500,600,700|syne:400,500,600,700,800&display=swap">
 <style>
 /* ─── RESET & BASE ─── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -83,36 +83,44 @@ body {
   pointer-events: none;
 }
 .intro-name {
-  font-family: var(--display);
-  font-size: clamp(4rem, 14vw, 14rem);
+  font-family: 'Syne', var(--sans);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 13vw, 12rem);
   color: #fff;
-  letter-spacing: 0.06em;
-  line-height: 0.9;
+  letter-spacing: -0.02em;
+  line-height: 0.88;
   text-align: center;
-  opacity: 0;
-  transform: translateY(30px) scale(0.96);
-  transition: opacity 0.9s ease, transform 0.9s var(--ease-out-expo);
+  text-transform: uppercase;
 }
-.intro-name.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.intro-name .intro-first {
-  display: block;
-}
+.intro-name .intro-first,
 .intro-name .intro-last {
   display: block;
+  overflow: hidden;
+}
+.intro-name .intro-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  transition: opacity 0.6s ease, transform 0.7s var(--ease-out-expo);
+}
+.intro-name.visible .intro-char {
+  opacity: 1;
+  transform: translateY(0);
+}
+.intro-name .intro-last .intro-char {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.7);
 }
 .intro-role {
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(0.9rem, 2vw, 1.4rem);
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.08em;
-  margin-top: 20px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+  margin-top: 28px;
   opacity: 0;
   transform: translateY(15px);
-  transition: opacity 0.8s 0.5s ease, transform 0.8s 0.5s var(--ease-out-expo);
+  transition: opacity 0.8s 1.2s ease, transform 0.8s 1.2s var(--ease-out-expo);
 }
 .intro-role.visible {
   opacity: 1;
@@ -1838,8 +1846,8 @@ footer {
   <div class="intro-noise"></div>
   <div class="intro-overlay">
     <div class="intro-name" id="introName">
-      <span class="intro-first">KARIM</span>
-      <span class="intro-last">ASSI</span>
+      <span class="intro-first"><span class="intro-char" style="transition-delay:0.1s">K</span><span class="intro-char" style="transition-delay:0.17s">A</span><span class="intro-char" style="transition-delay:0.24s">R</span><span class="intro-char" style="transition-delay:0.31s">I</span><span class="intro-char" style="transition-delay:0.38s">M</span></span>
+      <span class="intro-last"><span class="intro-char" style="transition-delay:0.5s">A</span><span class="intro-char" style="transition-delay:0.57s">S</span><span class="intro-char" style="transition-delay:0.64s">S</span><span class="intro-char" style="transition-delay:0.71s">I</span></span>
     </div>
     <div class="intro-role" id="introRole">Software Engineer</div>
   </div>
@@ -2743,17 +2751,31 @@ footer {
 
   // ─── TEXT SPLIT ANIMATION ───
   function splitTextIntoChars(el) {
-    var html = el.innerHTML;
     // Don't re-split
     if (el.querySelector('.char')) return;
+    var html = el.innerHTML;
     var result = '';
     var inTag = false;
+    var inEntity = false;
+    var entity = '';
     var charIndex = 0;
     for (var i = 0; i < html.length; i++) {
       var ch = html[i];
       if (ch === '<') { inTag = true; result += ch; continue; }
       if (ch === '>') { inTag = false; result += ch; continue; }
       if (inTag) { result += ch; continue; }
+      // Handle HTML entities like &amp; &lt; etc.
+      if (ch === '&') { inEntity = true; entity = '&'; continue; }
+      if (inEntity) {
+        entity += ch;
+        if (ch === ';') {
+          inEntity = false;
+          result += '<span class="char" style="transition-delay:' + (charIndex * 25) + 'ms">' + entity + '</span>';
+          charIndex++;
+          entity = '';
+        }
+        continue;
+      }
       if (ch === ' ' || ch === '\n') { result += ch; continue; }
       result += '<span class="char" style="transition-delay:' + (charIndex * 25) + 'ms">' + ch + '</span>';
       charIndex++;
