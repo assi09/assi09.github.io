@@ -2805,10 +2805,8 @@ footer {
 /* ─── LENIS SMOOTH SCROLL ─── */
 
 /* ─── REVEAL TEXT (clip-path mask) ─── */
-.reveal-text {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 0s;
-}
+/* clip-path is applied by GSAP in script.js — not as a CSS default so text
+   is always visible if JS/GSAP fails to load */
 .reveal-text.revealed {
   clip-path: inset(0 0 0 0);
 }

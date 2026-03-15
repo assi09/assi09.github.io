@@ -306,6 +306,17 @@
     startEntranceAnimations();
   };
 
+  // Safety: if intro never completes, reveal content after 2.5s
+  setTimeout(function() {
+    if (document.body.classList.contains('has-intro')) {
+      document.body.classList.remove('has-intro');
+      document.body.style.overflow = '';
+    }
+    if (!window.__entranceDone && typeof startEntranceAnimations === 'function') {
+      startEntranceAnimations();
+    }
+  }, 2500);
+
   if (hasIntro) {
     // Hide loader immediately — intro takes over
     loader.classList.add('done');
@@ -555,6 +566,9 @@
 
   // ─── ENTRANCE ANIMATIONS ───
   function startEntranceAnimations() {
+    if (window.__entranceDone) return;
+    window.__entranceDone = true;
+
     // Show sidenav (with slight delay for smoothness)
     var sidenav = document.getElementById('sidenav');
     setTimeout(function() {
@@ -573,13 +587,21 @@
     if (heroTitle) heroTitle.classList.add('animated');
 
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      // Fallback — show everything
+      // Fallback — show everything and run hero counters
       runRevealFallback();
       document.querySelectorAll('.hero-tag, .hero-subtitle, .hero-actions, .hero-stats-bar, .hero-scroll-hint').forEach(function(el) {
         el.style.opacity = '1';
         el.style.transform = 'none';
+        el.style.clipPath = 'none';
+      });
+      // Clear clip-path on all reveal-text elements (hero subtitle, about paragraphs, etc.)
+      document.querySelectorAll('.reveal-text').forEach(function(el) {
+        el.style.clipPath = 'none';
       });
       document.querySelectorAll('h2.section-title').forEach(function(t) { t.classList.add('animated'); });
+      document.querySelectorAll('.hstat-val[data-counter]').forEach(function(el) {
+        animateCounter(el);
+      });
       return;
     }
 
