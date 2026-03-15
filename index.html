@@ -1836,6 +1836,172 @@ footer {
 }
 
 .mobile-topbar { display: none; }
+
+/* ─── LENIS SMOOTH SCROLL ─── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+
+/* ─── REVEAL TEXT (clip-path mask) ─── */
+.reveal-text {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0s;
+}
+.reveal-text.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ─── SKILLS ORBIT VISUALIZATION ─── */
+.skills-orbit {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 28px;
+}
+.skills-orbit-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  z-index: 2;
+}
+.orbit-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  animation: orbit-spin linear infinite;
+}
+.orbit-ring:nth-child(2) { width: 120px; height: 120px; margin: -60px 0 0 -60px; animation-duration: 12s; }
+.orbit-ring:nth-child(3) { width: 160px; height: 160px; margin: -80px 0 0 -80px; animation-duration: 18s; animation-direction: reverse; }
+.orbit-ring:nth-child(4) { width: 200px; height: 200px; margin: -100px 0 0 -100px; animation-duration: 24s; }
+.orbit-ring:nth-child(5) { width: 220px; height: 220px; margin: -110px 0 0 -110px; animation-duration: 30s; animation-direction: reverse; }
+.orbit-pill {
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--white);
+  color: var(--ink2);
+  border: 1px solid var(--rule);
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  animation: orbit-counter-spin linear infinite;
+}
+.orbit-ring:nth-child(2) .orbit-pill { animation-duration: 12s; }
+.orbit-ring:nth-child(3) .orbit-pill { animation-duration: 18s; animation-direction: reverse; }
+.orbit-ring:nth-child(4) .orbit-pill { animation-duration: 24s; }
+.orbit-ring:nth-child(5) .orbit-pill { animation-duration: 30s; animation-direction: reverse; }
+@keyframes orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes orbit-counter-spin { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(-360deg); } }
+.orbit-ring:nth-child(3) .orbit-pill { animation-name: orbit-counter-spin-rev; }
+.orbit-ring:nth-child(5) .orbit-pill { animation-name: orbit-counter-spin-rev; }
+@keyframes orbit-counter-spin-rev { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(360deg); } }
+
+/* ─── CURSOR TRAIL ─── */
+.cursor-trail {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+@media (pointer: coarse) {
+  .cursor-trail { display: none !important; }
+}
+@media (max-width: 820px) {
+  .cursor-trail { display: none !important; }
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  position: relative;
+  background: var(--ink);
+  color: var(--white);
+  padding: 100px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent4), var(--accent));
+  background-size: 300% 100%;
+  animation: cta-gradient-border 4s linear infinite;
+}
+@keyframes cta-gradient-border {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+.cta-banner-title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.cta-banner-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 40px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-banner-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta-banner-actions .btn-fill {
+  background: var(--accent);
+  color: #fff;
+}
+.cta-banner-actions .btn-ghost {
+  border-color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.8);
+}
+.cta-banner-actions .btn-ghost:hover {
+  border-color: #fff;
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .cta-banner { padding: 60px 24px; }
+}
+
+/* ─── CV DOWNLOAD BUTTON ─── */
+.btn-cv {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 30px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+.btn-cv:hover {
+  background: var(--ink);
+  color: var(--white);
+}
 </style>
 </head>
 <body class="has-intro">
@@ -1868,6 +2034,14 @@ footer {
 <!-- CUSTOM CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Cursor Trail -->
+<div class="cursor-trail" id="trail0"></div>
+<div class="cursor-trail" id="trail1"></div>
+<div class="cursor-trail" id="trail2"></div>
+<div class="cursor-trail" id="trail3"></div>
+<div class="cursor-trail" id="trail4"></div>
+<div class="cursor-trail" id="trail5"></div>
 
 <!-- Scroll progress bar -->
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true">
@@ -1908,6 +2082,7 @@ footer {
       <a href="https://github.com/assi09" target="_blank">github.com/assi09</a>
       <a href="https://www.linkedin.com/in/karim-assi-3559b2339/" target="_blank">linkedin.com/in/karim-assi-3559b2339</a>
       <a href="#contact">Let's Chat</a>
+      <a href="Karim_Assi_CV.pdf" download>Download CV ↓</a>
     </div>
   </div>
 </nav>
@@ -1932,7 +2107,7 @@ footer {
         <span class="italic-word text-shimmer text-shimmer--hero">Karim</span>
         ASSI
       </h1>
-      <p class="hero-subtitle">
+      <p class="hero-subtitle reveal-text">
         <strong>Software Engineer</strong> building AI-powered full-stack systems —
         from intelligent chatbots and LLM integration to distributed backends
         and real-time applications. 3.97 GPA · Dean's Honors ×6.
@@ -1940,6 +2115,7 @@ footer {
       <div class="hero-actions">
         <a href="#projects" class="btn-fill">See My Work →</a>
         <a href="#contact" class="btn-ghost">Get In Touch</a>
+        <a href="Karim_Assi_CV.pdf" download class="btn-cv">Download CV ↓</a>
       </div>
     </div>
 
@@ -1971,10 +2147,10 @@ footer {
     <h2 class="section-title reveal">An <em class="text-shimmer">engineer</em><br>on a mission.</h2>
     <div class="about-layout">
       <div class="about-text reveal">
-        <p>I'm a <strong>Computer & Communications Engineering</strong> student at the American University of Beirut, building things that bridge intelligence and utility.</p>
-        <div class="big-quote">Code that thinks. Systems that scale.</div>
-        <p>From securing enterprise networks at <strong>MEA Airlines</strong> to building AI cognitive support tools for Alzheimer's patients — I work at the intersection of engineering depth and real-world impact.</p>
-        <p>Fluent in English, French, and Arabic. I thrive in teams that care about doing it right.</p>
+        <p class="reveal-text">I'm a <strong>Computer & Communications Engineering</strong> student at the American University of Beirut, building things that bridge intelligence and utility.</p>
+        <div class="big-quote reveal-text">Code that thinks. Systems that scale.</div>
+        <p class="reveal-text">From securing enterprise networks at <strong>MEA Airlines</strong> to building AI cognitive support tools for Alzheimer's patients — I work at the intersection of engineering depth and real-world impact.</p>
+        <p class="reveal-text">Fluent in English, French, and Arabic. I thrive in teams that care about doing it right.</p>
       </div>
       <div class="about-cards reveal reveal-stagger">
         <div class="about-card">
@@ -2002,11 +2178,12 @@ footer {
     <div class="section-eyebrow reveal"><span class="num">(004)</span> Tech Stack</div>
     <h2 class="section-title reveal">Skills &amp;<br><em class="text-shimmer">Arsenal</em></h2>
     <p class="skills-intro reveal">From low-level performance work to AI products and polished team delivery. Hover around the stack and explore what I use to build, secure, and ship.</p>
-    <div class="skills-legend reveal">
-      <span class="legend-pill">Build Fast</span>
-      <span class="legend-pill">Ship Clean</span>
-      <span class="legend-pill">Secure by Design</span>
-      <span class="legend-pill">Collaborate Strong</span>
+    <div class="skills-orbit reveal">
+      <span class="skills-orbit-center">SKILLS</span>
+      <div class="orbit-ring"><span class="orbit-pill">Build Fast</span></div>
+      <div class="orbit-ring"><span class="orbit-pill">Ship Clean</span></div>
+      <div class="orbit-ring"><span class="orbit-pill">Secure by Design</span></div>
+      <div class="orbit-ring"><span class="orbit-pill">Collaborate Strong</span></div>
     </div>
     <div class="skills-grid reveal reveal-stagger">
       <div class="skill-cell">
@@ -2273,7 +2450,7 @@ footer {
     <h2 class="section-title reveal">Let's build<br><em class="text-shimmer">something.</em></h2>
     <div class="contact-layout">
       <div class="reveal">
-        <p class="contact-big-text">Got a project, an idea, or just want to connect? <strong>I'm always open to interesting conversations.</strong></p>
+        <p class="contact-big-text reveal-text">Got a project, an idea, or just want to connect? <strong>I'm always open to interesting conversations.</strong></p>
         <div class="contact-links">
           <a class="contact-link-item" href="mailto:assikarim10@gmail.com">
             <div>
@@ -2333,6 +2510,16 @@ footer {
 
 </main>
 
+<!-- ── CTA BANNER ── -->
+<section class="cta-banner">
+  <h2 class="cta-banner-title">Let's Work Together</h2>
+  <p class="cta-banner-subtitle">Have a project in mind? I'd love to hear about it.</p>
+  <div class="cta-banner-actions">
+    <a href="#contact" class="btn-fill">Get In Touch →</a>
+    <a href="Karim_Assi_CV.pdf" download class="btn-ghost">Download CV ↓</a>
+  </div>
+</section>
+
 <footer>
   <p class="footer-copy">© 2025 Karim Assi — All rights reserved.</p>
   <div class="footer-socials">
@@ -2342,6 +2529,9 @@ footer {
     <a href="#home">↑ Top</a>
   </div>
 </footer>
+
+<!-- LENIS SMOOTH SCROLL -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" crossorigin="anonymous"></script>
 
 <!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
@@ -2632,7 +2822,7 @@ footer {
     loader.classList.add('done');
     if (!hasIntro) {
       // No intro — go straight to entrance animations
-      setTimeout(startEntranceAnimations, 300);
+      setTimeout(function() { startEntranceAnimations(); initLenis(); }, 300);
     }
     // If intro is active, entrance will be called from completeIntro()
   }
@@ -2640,6 +2830,7 @@ footer {
   // Expose entrance trigger for the intro script
   window.__startEntrance = function() {
     startEntranceAnimations();
+    initLenis();
   };
 
   if (hasIntro) {
@@ -2685,7 +2876,7 @@ footer {
   animateCursor();
 
   // Hover states for cursor
-  var hoverEls = document.querySelectorAll('a, button, .btn-fill, .btn-ghost, .btn-submit, .stag, .about-card, .proj-featured, .proj-row, .contact-link-item, .exp-item, .legend-pill');
+  var hoverEls = document.querySelectorAll('a, button, .btn-fill, .btn-ghost, .btn-cv, .btn-submit, .stag, .about-card, .proj-featured, .proj-row, .contact-link-item, .exp-item, .orbit-pill');
   hoverEls.forEach(function(el) {
     el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
     el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
@@ -2997,6 +3188,9 @@ footer {
         delay: i * 0.1
       });
     });
+
+    // Reveal-text clip-path animations
+    initRevealText();
   }
 
   // Fallback without GSAP
@@ -3079,6 +3273,162 @@ footer {
       }
     });
   });
+
+  // ─── LENIS SMOOTH SCROLL (initialized after intro) ───
+  var lenisInstance = null;
+  function initLenis() {
+    if (lenisInstance) return;
+    if (typeof Lenis === 'undefined') return;
+    lenisInstance = new Lenis({ duration: 1.2, easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smooth: true });
+    if (typeof ScrollTrigger !== 'undefined') {
+      lenisInstance.on('scroll', ScrollTrigger.update);
+    }
+    function raf(time) { lenisInstance.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    // Smooth nav click transitions
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target && lenisInstance) {
+            // Brief scale-down effect on main content
+            var mainContent = document.querySelector('main');
+            if (mainContent && typeof gsap !== 'undefined') {
+              gsap.to(mainContent, { scale: 0.98, duration: 0.2, ease: 'power2.in', onComplete: function() {
+                gsap.to(mainContent, { scale: 1, duration: 0.4, ease: 'power2.out' });
+              }});
+            }
+            lenisInstance.scrollTo(target, { offset: -24 });
+          }
+        }
+      });
+    });
+    // Also handle CTA banner links
+    document.querySelectorAll('.cta-banner-actions a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = link.getAttribute('href');
+        if (href && href.startsWith('#') && lenisInstance) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) lenisInstance.scrollTo(target, { offset: -24 });
+        }
+      });
+    });
+  }
+
+  // ─── MAGNETIC NAV LINKS ───
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('mousemove', function(e) {
+      var rect = link.getBoundingClientRect();
+      var x = e.clientX - rect.left - rect.width / 2;
+      var y = e.clientY - rect.top - rect.height / 2;
+      if (typeof gsap !== 'undefined') {
+        gsap.to(link, { x: x * 0.25, y: y * 0.25, duration: 0.3, ease: 'power2.out' });
+      }
+    });
+    link.addEventListener('mouseleave', function() {
+      if (typeof gsap !== 'undefined') {
+        gsap.to(link, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+      }
+    });
+  });
+
+  // ─── TEXT REVEAL ANIMATIONS ON SCROLL (clip-path mask) ───
+  function initRevealText() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    document.querySelectorAll('.reveal-text').forEach(function(el) {
+      gsap.fromTo(el,
+        { clipPath: 'inset(100% 0 0 0)' },
+        { clipPath: 'inset(0% 0 0 0)', duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        }
+      );
+    });
+  }
+
+  // ─── CURSOR TRAIL EFFECT (desktop only) ───
+  (function() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    var trailCount = 6;
+    var trails = [];
+    for (var i = 0; i < trailCount; i++) {
+      var el = document.getElementById('trail' + i);
+      if (el) {
+        var size = Math.max(3, 7 - i);
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.opacity = String(Math.max(0.05, 0.2 - i * 0.03));
+        trails.push({ el: el, x: 0, y: 0 });
+      }
+    }
+    if (!trails.length) return;
+    var mouseX = 0, mouseY = 0, active = false;
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!active) {
+        active = true;
+        trails.forEach(function(t) { t.el.style.opacity = t.el.style.opacity; });
+      }
+    });
+    function animateTrails() {
+      var prevX = mouseX, prevY = mouseY;
+      for (var i = 0; i < trails.length; i++) {
+        var t = trails[i];
+        var ease = 0.2 - i * 0.02;
+        t.x += (prevX - t.x) * ease;
+        t.y += (prevY - t.y) * ease;
+        t.el.style.left = t.x + 'px';
+        t.el.style.top = t.y + 'px';
+        t.el.style.transform = 'translate(-50%, -50%)';
+        prevX = t.x;
+        prevY = t.y;
+      }
+      requestAnimationFrame(animateTrails);
+    }
+    animateTrails();
+  })();
+
+  // ─── ANIMATED FAVICON ───
+  (function() {
+    var faviconCanvas = document.createElement('canvas');
+    faviconCanvas.width = 32;
+    faviconCanvas.height = 32;
+    var fctx = faviconCanvas.getContext('2d');
+    var accentColors = ['#ff4d00', '#0057ff', '#00c896', '#ffcc00'];
+    var colorIndex = 0;
+    var faviconLink = document.querySelector('link[rel="icon"]');
+    if (!faviconLink) {
+      faviconLink = document.createElement('link');
+      faviconLink.rel = 'icon';
+      document.head.appendChild(faviconLink);
+    }
+    function drawFavicon() {
+      var c1 = accentColors[colorIndex % accentColors.length];
+      var c2 = accentColors[(colorIndex + 1) % accentColors.length];
+      var grad = fctx.createLinearGradient(0, 0, 32, 32);
+      grad.addColorStop(0, c1);
+      grad.addColorStop(1, c2);
+      fctx.clearRect(0, 0, 32, 32);
+      // Rounded rect
+      fctx.beginPath();
+      fctx.roundRect(0, 0, 32, 32, 6);
+      fctx.fillStyle = grad;
+      fctx.fill();
+      // Letter K
+      fctx.font = 'bold 18px system-ui, sans-serif';
+      fctx.fillStyle = '#ffffff';
+      fctx.textAlign = 'center';
+      fctx.textBaseline = 'middle';
+      fctx.fillText('K', 16, 17);
+      faviconLink.href = faviconCanvas.toDataURL('image/png');
+      colorIndex++;
+    }
+    drawFavicon();
+    setInterval(drawFavicon, 3000);
+  })();
 
 })();
 
