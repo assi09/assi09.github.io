@@ -1161,9 +1161,7 @@
   }, { threshold: 0.1 });
   orbitObs.observe(orbit);
 })();
-</script>
 
-<script>
 /* ─── ABOUT CARDS: ANIMATED COUNTERS ─── */
 (function() {
   var counted = false;
