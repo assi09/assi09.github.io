@@ -1082,7 +1082,10 @@
   var showcases = {
     library: document.getElementById('showcaseOverlay'),
     banking: document.getElementById('showcaseOverlayBanking'),
-    chatvsdeep: document.getElementById('showcaseOverlayChatvsdeep')
+    chatvsdeep: document.getElementById('showcaseOverlayChatvsdeep'),
+    exchangerate: document.getElementById('showcaseOverlayExchangerate'),
+    racinggame: document.getElementById('showcaseOverlayRacinggame'),
+    clinicmax: document.getElementById('showcaseOverlayClinicmax')
   };
 
   function openShowcase(overlay) {
