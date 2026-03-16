@@ -2924,7 +2924,7 @@ footer {
   .mobile-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .mobile-hamburger.active span:nth-child(2) { opacity: 0; }
   .mobile-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  #home { padding-top: 80px; }
+  #home { padding-top: 100px; }
   .hero-content { padding: 0 32px 64px; }
   .hero-stats-bar { grid-template-columns: 1fr 1fr; }
   .hstat { padding: 20px 24px; }
