@@ -343,7 +343,7 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
     <p class="projects-intro reveal reveal-text">Things I've built — from AI-powered healthcare tools to real-time networked games.</p>
 
     <div class="projects-grid">
-      <a class="proj-card reveal" href="https://github.com/assi09/project_503M" target="_blank">
+      <div class="proj-card reveal" data-showcase="library" style="cursor:pointer">
         <div class="proj-card-eyebrow"><span class="proj-card-num">01</span> Sep 2025 — Present</div>
         <h3 class="proj-card-name">An Intelligent Library &amp; Learning System</h3>
         <p class="proj-card-desc">AI-driven intelligent library platform using microservices, semantic search, and LLM-based learning tools. Tested and validated by library domain experts.</p>
@@ -351,9 +351,9 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
           <span class="proj-card-tag">Agile</span><span class="proj-card-tag">Web App</span><span class="proj-card-tag">Microservices</span>
         </div>
         <div class="proj-card-footer">
-          <span class="proj-card-link">View on GitHub →</span>
+          <span class="proj-card-link">View Case Study →</span>
         </div>
-      </a>
+      </div>
 
       <a class="proj-card reveal" href="https://github.com/NourSN2004/CognifyReal" target="_blank">
         <div class="proj-card-eyebrow"><span class="proj-card-num">02</span> Oct 2025 — Dec 2025</div>
@@ -706,6 +706,176 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
 <!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+
+<!-- PROJECT SHOWCASE MODAL -->
+<div class="showcase-overlay" id="showcaseOverlay">
+  <div class="showcase" id="showcase">
+    <button class="showcase-close" id="showcaseClose" aria-label="Close showcase">&times;</button>
+
+    <!-- Hero -->
+    <header class="showcase-hero">
+      <div class="showcase-hero-content">
+        <span class="showcase-badge">Featured Project</span>
+        <h2 class="showcase-title">MyLibraryPal</h2>
+        <p class="showcase-subtitle">An Intelligent Library &amp; Learning System</p>
+        <p class="showcase-desc">AI-powered research companion built with microservices architecture. Upload papers, generate summaries, chat with your library, highlight passages, take AI quizzes, and collaborate in study groups — all in one place.</p>
+        <div class="showcase-meta">
+          <span class="showcase-meta-item">Sep 2025 — Present</span>
+          <span class="showcase-meta-item">Agile / Microservices</span>
+          <span class="showcase-meta-item">Tested by domain experts</span>
+        </div>
+        <a href="https://github.com/assi09/project_503M" target="_blank" rel="noopener" class="showcase-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          View on GitHub →
+        </a>
+      </div>
+      <div class="showcase-hero-img">
+        <img src="projects/library/landing.png" alt="MyLibraryPal landing page" loading="lazy">
+      </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>01</span> Platform Overview</div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/library/features.png" alt="Platform features overview" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Everything you need in one place</h3>
+          <p>Six core capabilities — upload papers, get AI summaries, chat with your library, save highlights, paraphrase text, and collaborate in study groups.</p>
+        </div>
+      </div>
+      <div class="showcase-row showcase-row--reverse">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/library/how-it-works.png" alt="How it works — 3 steps" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Simple by design</h3>
+          <p>From upload to insight in three steps. Drop any PDF and the system handles metadata extraction, content indexing, and AI processing automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>02</span> Onboarding</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/library/welcome.png" alt="Welcome screen" loading="lazy">
+          <figcaption>Welcome screen with feature preview — Smart Library, Virtual Librarian, and Study Groups.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/login.png" alt="Sign in screen" loading="lazy">
+          <figcaption>Clean authentication flow with branded sign-in modal.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Core Experience -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>03</span> Core Experience</div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/library/dashboard.png" alt="Dashboard" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Personalized Dashboard</h3>
+          <p>Smart home screen with paper recommendations, advanced search with subject/author/year filters, and a "Continue Reading" list to pick up where you left off.</p>
+        </div>
+      </div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/library/paper-detail.png" alt="Paper detail view" loading="lazy">
+          <figcaption>Full paper metadata — abstract, keywords, and references extracted automatically from uploaded PDFs.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/reader.png" alt="Text reader with highlighting" loading="lazy">
+          <figcaption>Integrated reader with color-coded highlighting, AI summarize/paraphrase tools, and text-to-speech with voice selection.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- AI Tools -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>04</span> AI-Powered Tools</div>
+      <div class="showcase-row showcase-row--reverse">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/library/chat.png" alt="Virtual Librarian chatbot" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Virtual Librarian</h3>
+          <p>AI chatbot that answers questions across your entire paper collection. Ask about any topic and it finds relevant passages, cites sources, and explains key concepts.</p>
+        </div>
+      </div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/library/quiz.png" alt="Comprehension quiz" loading="lazy">
+          <figcaption>AI-generated comprehension quizzes with configurable difficulty (Easy, Normal, Hard) to test understanding of any paper.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/writings.png" alt="Writing tools" loading="lazy">
+          <figcaption>Summarize, paraphrase, and check for plagiarism — all powered by AI with adjustable output length.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Readings & Highlights -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>05</span> Readings &amp; Highlights</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/library/readings.png" alt="Readings browser" loading="lazy">
+          <figcaption>Browse and filter saved papers by subject with advanced search. Toggle between My Readings and My Highlights views.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/highlights.png" alt="Color-coded highlights" loading="lazy">
+          <figcaption>All highlights organized by color across every paper — yellow, green, blue, pink — for quick review and revision.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Knowledge & Collaboration -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>06</span> Knowledge &amp; Collaboration</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/library/roadmap-graph.png" alt="Knowledge roadmap graph" loading="lazy">
+          <figcaption>Interactive knowledge graph mapping concepts across your papers — track mastery from Discovered to Mastered with visual connections.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/roadmap-list.png" alt="Knowledge roadmap list" loading="lazy">
+          <figcaption>List view of all concepts with type, source paper, and mastery level for structured learning progress tracking.</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-gallery showcase-gallery--3col">
+        <figure class="showcase-figure">
+          <img src="projects/library/groups.png" alt="Study groups" loading="lazy">
+          <figcaption>Create study groups, share papers, and generate AI-powered group note summaries.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/friends.png" alt="Friends activity" loading="lazy">
+          <figcaption>Social feed with trending papers, trending subjects, and most active readers among friends.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/library/tracker.png" alt="Study tracker" loading="lazy">
+          <figcaption>Weekly analytics — total study time, daily breakdown, time by activity, and reading streaks.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Tech Stack Footer -->
+    <footer class="showcase-footer">
+      <div class="showcase-tech">
+        <span>Django REST</span><span>React</span><span>PostgreSQL</span><span>OpenAI API</span><span>Microservices</span><span>Semantic Search</span><span>Docker</span>
+      </div>
+      <a href="https://github.com/assi09/project_503M" target="_blank" rel="noopener" class="showcase-github showcase-github--lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View Full Repository on GitHub →
+      </a>
+    </footer>
+  </div>
+</div>
 
 <!-- BACK TO TOP -->
 <button class="back-to-top" id="backToTop" aria-label="Back to top">

@@ -1077,6 +1077,48 @@
   });
 })();
 
+/* ─── PROJECT SHOWCASE MODAL ─── */
+(function() {
+  var overlay = document.getElementById('showcaseOverlay');
+  var closeBtn = document.getElementById('showcaseClose');
+  if (!overlay || !closeBtn) return;
+
+  /* Open */
+  document.querySelectorAll('[data-showcase]').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      overlay.scrollTop = 0;
+
+      /* Stagger-animate images inside */
+      var imgs = overlay.querySelectorAll('.showcase-img-wrap, .showcase-figure, .showcase-hero-img');
+      imgs.forEach(function(el, i) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        setTimeout(function() {
+          el.style.transition = 'opacity 0.6s ease, transform 0.6s var(--ease-out-expo)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 150 + i * 80);
+      });
+    });
+  });
+
+  /* Close */
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) close();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+})();
+
 /* ─── BACK TO TOP BUTTON ─── */
 (function() {
   var btn = document.getElementById('backToTop');
