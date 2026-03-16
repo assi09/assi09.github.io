@@ -1077,45 +1077,62 @@
   });
 })();
 
-/* ─── PROJECT SHOWCASE MODAL ─── */
+/* ─── PROJECT SHOWCASE MODALS ─── */
 (function() {
-  var overlay = document.getElementById('showcaseOverlay');
-  var closeBtn = document.getElementById('showcaseClose');
-  if (!overlay || !closeBtn) return;
+  var showcases = {
+    library: document.getElementById('showcaseOverlay'),
+    banking: document.getElementById('showcaseOverlayBanking')
+  };
+
+  function openShowcase(overlay) {
+    if (!overlay) return;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    overlay.scrollTop = 0;
+    var imgs = overlay.querySelectorAll('.showcase-img-wrap, .showcase-figure, .showcase-hero-img');
+    imgs.forEach(function(el, i) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      setTimeout(function() {
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s var(--ease-out-expo)';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 150 + i * 80);
+    });
+  }
+
+  function closeAll() {
+    Object.keys(showcases).forEach(function(k) {
+      if (showcases[k]) showcases[k].classList.remove('open');
+    });
+    document.body.style.overflow = '';
+  }
 
   /* Open */
   document.querySelectorAll('[data-showcase]').forEach(function(card) {
     card.addEventListener('click', function(e) {
       e.preventDefault();
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      overlay.scrollTop = 0;
-
-      /* Stagger-animate images inside */
-      var imgs = overlay.querySelectorAll('.showcase-img-wrap, .showcase-figure, .showcase-hero-img');
-      imgs.forEach(function(el, i) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(24px)';
-        setTimeout(function() {
-          el.style.transition = 'opacity 0.6s ease, transform 0.6s var(--ease-out-expo)';
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        }, 150 + i * 80);
-      });
+      var key = card.getAttribute('data-showcase');
+      openShowcase(showcases[key]);
     });
   });
 
-  /* Close */
-  function close() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) close();
+  /* Close buttons */
+  document.querySelectorAll('.showcase-close').forEach(function(btn) {
+    btn.addEventListener('click', closeAll);
   });
+
+  /* Close on overlay click */
+  Object.keys(showcases).forEach(function(k) {
+    if (!showcases[k]) return;
+    showcases[k].addEventListener('click', function(e) {
+      if (e.target === showcases[k]) closeAll();
+    });
+  });
+
+  /* Escape key */
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+    if (e.key === 'Escape') closeAll();
   });
 })();
 
