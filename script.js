@@ -331,38 +331,40 @@
   var cx = 0, cy = 0, dx = 0, dy = 0;
 
   var heroGrid = document.querySelector('.hero-grid');
-  document.addEventListener('mousemove', function(e) {
-    cx = e.clientX;
-    cy = e.clientY;
-    if (cursorDot && !document.body.classList.contains('cursor-disabled')) cursorDot.style.left = cx + 'px';
-    if (cursorDot && !document.body.classList.contains('cursor-disabled')) cursorDot.style.top = cy + 'px';
-  });
-
-  // Throttled hero grid glow (only when hero visible)
-  var gridRaf;
-  document.addEventListener('mousemove', function(e) {
-    if (gridRaf) return;
-    gridRaf = requestAnimationFrame(function() {
-      gridRaf = null;
-      if (!heroGrid || window.scrollY > window.innerHeight) return;
-      heroGrid.style.setProperty('--mx', e.clientX + 'px');
-      heroGrid.style.setProperty('--my', e.clientY + 'px');
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', function(e) {
+      cx = e.clientX;
+      cy = e.clientY;
+      if (cursorDot && !document.body.classList.contains('cursor-disabled')) cursorDot.style.left = cx + 'px';
+      if (cursorDot && !document.body.classList.contains('cursor-disabled')) cursorDot.style.top = cy + 'px';
     });
-  });
+  }
 
-  if (!document.body.classList.contains('cursor-disabled')) {
+  // Throttled hero grid glow (only when hero visible, pointer devices only)
+  var gridRaf;
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', function(e) {
+      if (gridRaf) return;
+      gridRaf = requestAnimationFrame(function() {
+        gridRaf = null;
+        if (!heroGrid || window.scrollY > window.innerHeight) return;
+        heroGrid.style.setProperty('--mx', e.clientX + 'px');
+        heroGrid.style.setProperty('--my', e.clientY + 'px');
+      });
+    });
+  }
+
+  if (!document.body.classList.contains('cursor-disabled') && window.matchMedia('(pointer: fine)').matches) {
   // Trail setup (merged into cursor loop)
   var _trails = [];
-  if (window.matchMedia('(pointer: fine)').matches) {
-    for (var _ti = 0; _ti < 6; _ti++) {
-      var _te = document.getElementById('trail' + _ti);
-      if (_te) {
-        var _sz = Math.max(3, 7 - _ti);
-        _te.style.width = _sz + 'px';
-        _te.style.height = _sz + 'px';
-        _te.style.opacity = String(Math.max(0.05, 0.2 - _ti * 0.03));
-        _trails.push({ el: _te, x: 0, y: 0 });
-      }
+  for (var _ti = 0; _ti < 6; _ti++) {
+    var _te = document.getElementById('trail' + _ti);
+    if (_te) {
+      var _sz = Math.max(3, 7 - _ti);
+      _te.style.width = _sz + 'px';
+      _te.style.height = _sz + 'px';
+      _te.style.opacity = String(Math.max(0.05, 0.2 - _ti * 0.03));
+      _trails.push({ el: _te, x: 0, y: 0 });
     }
   }
 
@@ -764,21 +766,23 @@
     revs.forEach(function(el) { rObs.observe(el); });
   }
 
-  // ─── MOUSE PARALLAX ON HERO SHAPES (throttled) ───
+  // ─── MOUSE PARALLAX ON HERO SHAPES (throttled, pointer devices only) ───
   var shapeRaf;
   var heroShapes = document.querySelectorAll('.hero-shape');
-  window.addEventListener('mousemove', function(e) {
-    if (shapeRaf || window.scrollY > window.innerHeight) return;
-    shapeRaf = requestAnimationFrame(function() {
-      shapeRaf = null;
-      var x = (e.clientX / window.innerWidth - 0.5) * 20;
-      var y = (e.clientY / window.innerHeight - 0.5) * 20;
-      heroShapes.forEach(function(el, i) {
-        var f = (i + 1) * 0.4;
-        if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 1, ease: 'power2.out' });
+  if (window.matchMedia('(pointer: fine)').matches) {
+    window.addEventListener('mousemove', function(e) {
+      if (shapeRaf || window.scrollY > window.innerHeight) return;
+      shapeRaf = requestAnimationFrame(function() {
+        shapeRaf = null;
+        var x = (e.clientX / window.innerWidth - 0.5) * 20;
+        var y = (e.clientY / window.innerHeight - 0.5) * 20;
+        heroShapes.forEach(function(el, i) {
+          var f = (i + 1) * 0.4;
+          if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 1, ease: 'power2.out' });
+        });
       });
     });
-  });
+  }
 
   // ─── MOUSE-DEPENDENT EFFECTS (pointer devices only) ───
   var isPointerFine = window.matchMedia('(pointer: fine)').matches;
@@ -1060,6 +1064,7 @@
     hamburger.classList.toggle('active', open);
     overlay.classList.toggle('visible', open);
     hamburger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    document.body.style.overflow = open ? 'hidden' : '';
   }
 
   hamburger.addEventListener('click', toggle);
@@ -1097,16 +1102,18 @@
   resize();
   window.addEventListener('resize', resize);
 
-  /* 3D mouse tilt */
-  orbit.addEventListener('mousemove', function(e) {
-    var rect = orbit.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width - 0.5;
-    var my = (e.clientY - rect.top) / rect.height - 0.5;
-    scene.style.transform = 'rotateY(' + (mx * 20) + 'deg) rotateX(' + (-my * 15) + 'deg)';
-  });
-  orbit.addEventListener('mouseleave', function() {
-    scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
-  });
+  /* 3D mouse tilt (pointer devices only) */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    orbit.addEventListener('mousemove', function(e) {
+      var rect = orbit.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width - 0.5;
+      var my = (e.clientY - rect.top) / rect.height - 0.5;
+      scene.style.transform = 'rotateY(' + (mx * 20) + 'deg) rotateX(' + (-my * 15) + 'deg)';
+    });
+    orbit.addEventListener('mouseleave', function() {
+      scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    });
+  }
 
   /* Particle system */
   var colors = [
@@ -1330,14 +1337,16 @@
     }
   }
 
-  section.addEventListener('mousemove', function(e) {
-    var rect = section.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-  });
-  section.addEventListener('mouseleave', function() {
-    mouse.x = -9999; mouse.y = -9999;
-  });
+  if (window.matchMedia('(pointer: fine)').matches) {
+    section.addEventListener('mousemove', function(e) {
+      var rect = section.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    section.addEventListener('mouseleave', function() {
+      mouse.x = -9999; mouse.y = -9999;
+    });
+  }
 
   function animate() {
     if (!running) return;
