@@ -1081,7 +1081,8 @@
 (function() {
   var showcases = {
     library: document.getElementById('showcaseOverlay'),
-    banking: document.getElementById('showcaseOverlayBanking')
+    banking: document.getElementById('showcaseOverlayBanking'),
+    chatvsdeep: document.getElementById('showcaseOverlayChatvsdeep')
   };
 
   function openShowcase(overlay) {
