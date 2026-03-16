@@ -2960,8 +2960,8 @@ footer {
   .hstat-label { font-size: 0.65rem; }
 
   /* Section spacing — fix title/text overlap on mobile */
-  h2.section-title { margin-bottom: 40px; line-height: 1.1; font-size: clamp(2.4rem, 8vw, 3.5rem); }
-  h2.section-title em { font-size: 0.9em; }
+  h2.section-title { margin-bottom: 48px; padding-bottom: 12px; line-height: 1.15; font-size: clamp(2.4rem, 8vw, 3.5rem); }
+  h2.section-title em { font-size: 0.85em; display: inline-block; padding-bottom: 4px; }
 
   /* Quote block */
   .about-text .big-quote { font-size: clamp(1rem, 3.5vw, 1.6rem); padding: 24px 18px 24px 22px; border-radius: 12px; }
