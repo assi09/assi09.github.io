@@ -964,11 +964,73 @@
   var form = document.getElementById('contactForm');
   if (!form) return;
 
+  var btn = form.querySelector('.btn-submit');
+  var toast = document.getElementById('toast');
+
+  function showError(id, msg) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('active');
+    var input = el.previousElementSibling;
+    if (input) input.classList.add('invalid');
+  }
+
+  function clearErrors() {
+    form.querySelectorAll('.form-error').forEach(function(el) {
+      el.classList.remove('active');
+      el.textContent = '';
+    });
+    form.querySelectorAll('.invalid').forEach(function(el) {
+      el.classList.remove('invalid');
+    });
+  }
+
+  function validate() {
+    clearErrors();
+    var valid = true;
+    var name = form.querySelector('#contact-name');
+    var email = form.querySelector('#contact-email');
+    var message = form.querySelector('#contact-message');
+
+    if (!name.value.trim()) {
+      showError('error-name', 'Please enter your name.');
+      valid = false;
+    }
+    if (!email.value.trim()) {
+      showError('error-email', 'Please enter your email.');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      showError('error-email', 'Please enter a valid email address.');
+      valid = false;
+    }
+    if (!message.value.trim()) {
+      showError('error-message', 'Please enter a message.');
+      valid = false;
+    }
+    return valid;
+  }
+
+  function showToast() {
+    if (!toast) return;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 4000);
+  }
+
+  /* Clear field error on input */
+  form.querySelectorAll('.form-input, .form-textarea').forEach(function(input) {
+    input.addEventListener('input', function() {
+      input.classList.remove('invalid');
+      var error = input.parentElement.querySelector('.form-error');
+      if (error) { error.classList.remove('active'); error.textContent = ''; }
+    });
+  });
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    var btn = form.querySelector('button');
-    var orig = btn.innerHTML;
-    btn.innerHTML = 'Sending...';
+    if (!validate()) return;
+
+    btn.classList.add('loading');
     btn.disabled = true;
 
     var data = new FormData(form);
@@ -980,15 +1042,18 @@
     })
     .then(function(res) {
       if (res.ok) {
-        btn.innerHTML = 'Message Sent ✓';
+        btn.classList.remove('loading');
+        btn.querySelector('.btn-submit-text').textContent = 'Message Sent \u2713';
         btn.style.background = 'var(--accent3)';
         btn.style.color = '#fff';
         if (typeof gsap !== 'undefined') {
           gsap.fromTo(btn, { scale: 0.95 }, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
         }
         form.reset();
+        clearErrors();
+        showToast();
         setTimeout(function() {
-          btn.innerHTML = orig;
+          btn.querySelector('.btn-submit-text').textContent = 'Send Message \u2192';
           btn.style.background = '';
           btn.style.color = '';
           btn.disabled = false;
@@ -998,16 +1063,36 @@
       }
     })
     .catch(function() {
-      btn.innerHTML = 'Error — Try Again';
+      btn.classList.remove('loading');
+      btn.querySelector('.btn-submit-text').textContent = 'Error \u2014 Try Again';
       btn.style.background = 'var(--accent)';
       btn.style.color = '#fff';
       setTimeout(function() {
-        btn.innerHTML = orig;
+        btn.querySelector('.btn-submit-text').textContent = 'Send Message \u2192';
         btn.style.background = '';
         btn.style.color = '';
         btn.disabled = false;
       }, 3000);
     });
+  });
+})();
+
+/* ─── BACK TO TOP BUTTON ─── */
+(function() {
+  var btn = document.getElementById('backToTop');
+  if (!btn) return;
+  var shown = false;
+
+  window.addEventListener('scroll', function() {
+    var shouldShow = window.scrollY > window.innerHeight;
+    if (shouldShow !== shown) {
+      shown = shouldShow;
+      btn.classList.toggle('visible', shown);
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
 

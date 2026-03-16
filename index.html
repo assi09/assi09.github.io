@@ -9,6 +9,7 @@
 <meta name="keywords" content="Karim Assi, Software Engineer, Full Stack Developer, AI Engineer, Python, React, Django, LLM, Beirut, Lebanon, AUB">
 <meta name="robots" content="index, follow">
 <meta name="format-detection" content="telephone=no, date=no, address=no">
+<link rel="canonical" href="https://assi09.github.io">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -662,10 +663,12 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
           <div class="form-field">
             <label class="form-label" for="contact-name">Your Name</label>
             <input type="text" id="contact-name" name="name" class="form-input" placeholder="Your full name" required>
+            <span class="form-error" id="error-name"></span>
           </div>
           <div class="form-field">
             <label class="form-label" for="contact-email">Email</label>
             <input type="email" id="contact-email" name="email" class="form-input" placeholder="your@email.com" required>
+            <span class="form-error" id="error-email"></span>
           </div>
           <div class="form-field">
             <label class="form-label" for="contact-subject">Subject</label>
@@ -674,8 +677,12 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
           <div class="form-field">
             <label class="form-label" for="contact-message">Message</label>
             <textarea id="contact-message" name="message" class="form-textarea" placeholder="Tell me about your project, idea, or opportunity..." required></textarea>
+            <span class="form-error" id="error-message"></span>
           </div>
-          <button type="submit" class="btn-submit">Send Message →</button>
+          <button type="submit" class="btn-submit">
+            <span class="btn-submit-text">Send Message →</span>
+            <span class="btn-submit-spinner"></span>
+          </button>
         </form>
       </div>
     </div>
@@ -697,10 +704,21 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
 <!-- LENIS SMOOTH SCROLL -->
 
 <!-- GSAP -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 
-<script src="script.js?v=3"></script>
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast" role="alert" aria-live="polite">
+  <span class="toast-icon">&#10003;</span>
+  <span class="toast-text">Message sent successfully!</span>
+</div>
+
+<script src="script.js?v=4"></script>
 
 </body>
 </html>
