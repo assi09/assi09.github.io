@@ -3320,6 +3320,7 @@ body.cursor-disabled {
   gap: 6px;
   padding: 8px 12px;
   margin-top: 12px;
+  margin-bottom: 10px;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
