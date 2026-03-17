@@ -2858,6 +2858,20 @@ footer {
 }
 .footer-socials a:hover { color: var(--accent4); transform: translateY(-2px); }
 
+[data-theme="dark"] footer {
+  background: #0d0d0d;
+  border-top-color: rgba(255,255,255,0.1);
+}
+[data-theme="dark"] .footer-copy {
+  color: rgba(255,255,255,0.55);
+}
+[data-theme="dark"] .footer-socials a {
+  color: rgba(255,255,255,0.55);
+}
+[data-theme="dark"] .footer-socials a:hover {
+  color: var(--accent4);
+}
+
 /* ─── PROJECT SHOWCASE MODAL ─── */
 .showcase-overlay {
   position: fixed;
