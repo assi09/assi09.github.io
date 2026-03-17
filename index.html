@@ -367,7 +367,7 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
         </div>
       </a>
 
-      <a class="proj-card reveal" href="https://github.com/NourSN2004/CognifyReal" target="_blank">
+      <div class="proj-card reveal" data-showcase="cognify" style="cursor:pointer">
         <div class="proj-card-eyebrow"><span class="proj-card-num">03</span> Sep 2025 — Dec 2025</div>
         <h3 class="proj-card-name">Cognify: AI for Mental Health Support</h3>
         <p class="proj-card-desc">Secure backend and AI components — chatbot, memory triggers, face recognition, text analysis — for cognitive support in dementia and Alzheimer's patients. In collaboration with physicians from AUBMC and Stanford University.</p>
@@ -375,9 +375,9 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
           <span class="proj-card-tag">Agile</span><span class="proj-card-tag">Web App</span><span class="proj-card-tag">AI</span>
         </div>
         <div class="proj-card-footer">
-          <span class="proj-card-link">View on GitHub →</span>
+          <span class="proj-card-link">View Project →</span>
         </div>
-      </a>
+      </div>
 
       <div class="proj-card reveal" data-showcase="banking" style="cursor:pointer">
         <div class="proj-card-eyebrow"><span class="proj-card-num">04</span> Nov 2025</div>
@@ -867,6 +867,187 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
     <!-- Footer -->
     <footer class="showcase-footer">
       <a href="https://github.com/mhmdjawadd/FYP" target="_blank" rel="noopener" class="showcase-github showcase-github--lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View Full Repository on GitHub →
+      </a>
+    </footer>
+  </div>
+</div>
+
+<!-- COGNIFY PROJECT SHOWCASE MODAL -->
+<div class="showcase-overlay" id="showcaseOverlayCognify">
+  <div class="showcase" id="showcaseCognify">
+    <button class="showcase-close" aria-label="Close showcase">&times;</button>
+
+    <!-- Hero -->
+    <header class="showcase-hero" style="background:linear-gradient(135deg,#150b33 0%,#26124f 50%,#150b33 100%)">
+      <div class="showcase-hero-content">
+        <span class="showcase-badge">Mobile · AI · Health</span>
+        <h2 class="showcase-title">Cognify</h2>
+        <p class="showcase-subtitle">AI for Cognitive Health &amp; Memory Support</p>
+        <p class="showcase-desc">Companion app for dementia and Alzheimer's care — doctor dashboards, family portal, AI companion, cognitive games, and memory-sharing tools to support patients and caregivers.</p>
+        <div class="showcase-meta">
+          <span class="showcase-meta-item">Sep 2025 — Dec 2025</span>
+          <span class="showcase-meta-item">Flutter / Firebase</span>
+          <span class="showcase-meta-item">AUBMC &amp; Stanford collaboration</span>
+        </div>
+        <a href="https://github.com/NourSN2004/CognifyReal" target="_blank" rel="noopener" class="showcase-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          View on GitHub →
+        </a>
+      </div>
+      <div class="showcase-hero-img">
+        <img src="projects/cognify/3.jpeg" alt="Cognify sign in screen for doctors and admins" loading="lazy">
+      </div>
+    </header>
+
+    <!-- Family portal & memories -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>01</span> Family Portal &amp; Memories</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/1.jpeg" alt="Family portal — Upload Memory, Connect Patient, View Progress" loading="lazy">
+          <figcaption>Family Portal for caregivers — upload memories, connect to a patient account, and view cognitive health updates for linked patients.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/2.jpeg" alt="Upload Memory flow — share photos and stories to help recall" loading="lazy">
+          <figcaption>Upload Memory screen — add photos, captions, and tags to build a shared memory bank that supports recall.</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/16.jpeg" alt="Connect to a patient — search by email or patient code, send connection request" loading="lazy">
+          <figcaption>Connect family to a patient — search directory or use a patient code, then send connection requests and track pending approvals.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/18.jpeg" alt="Settings with pending family requests and link to doctor / family member" loading="lazy">
+          <figcaption>Settings for patients — manage pending family requests, link to doctor or family member, dark mode toggle, and account controls.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Doctor dashboard & patient management -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>02</span> Doctor Dashboard &amp; Patients</div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/4.jpeg" alt="Doctor dashboard — total patients, high risk, improving, patient overview" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Cognify doctor dashboard</h3>
+          <p>High-level overview for clinicians — total patients, high-risk and improving patients, patient overview, and recent activity.</p>
+        </div>
+      </div>
+      <div class="showcase-row showcase-row--reverse">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/5.jpeg" alt="Doctor dashboard — recent events and quick actions" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Recent activity &amp; quick actions</h3>
+          <p>Activity feed for assessments, new memories, and risk changes, plus quick actions to add patients, schedule appointments, and view analytics.</p>
+        </div>
+      </div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/6.jpeg" alt="Patient Management — add/search patients, filter by risk level" loading="lazy">
+          <figcaption>Patient Management — add patients, search existing ones, and filter by risk levels to focus clinician attention.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/7.jpeg" alt="Patient Link Requests — review and manage incoming patient linking requests" loading="lazy">
+          <figcaption>Patient Link Requests — review and approve or reject connection requests from patients using Cognify.</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/19.jpeg" alt="Appointments list — New Appointment and filters for All, Upcoming, Completed, Cancelled" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Appointments</h3>
+          <p>Appointments module — create new appointments and filter by All, Upcoming, Completed, or Cancelled for each patient.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engagement, reports & trends -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>03</span> Engagement, Reports &amp; Trends</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/8.jpeg" alt="Engagement Over Time and Patient Trends cards" loading="lazy">
+          <figcaption>Engagement Over Time and Patient Trends — see daily engagement scores and how many patients are improving, stable, or declining.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/9.jpeg" alt="Reports — generate and export cognitive assessment reports over a chosen time range" loading="lazy">
+          <figcaption>Reports screen — choose report type and time range (e.g. last 30 days) to generate and export cognitive assessment reports.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- AI companion, games & cognitive exercises -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>04</span> AI Companion &amp; Cognitive Games</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/11.jpeg" alt="AI Companion chat — “How are you feeling today?”" loading="lazy">
+          <figcaption>AI Companion — conversational agent that checks in with the patient (“How are you feeling today?”) and logs responses.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/12.jpeg" alt="Cognitive Games menu — Stroop Test, N-Back, Trail Making, Memory Match, Remember the Past, Recognition Games" loading="lazy">
+          <figcaption>Cognitive games hub — Stroop Test, N-Back, Trail Making, Memory Match, Remember the Past, and Recognition Games, with recent scores.</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-row showcase-row--reverse">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/13.jpeg" alt="Reading Prompt — Tap to Record, prompt text, and recent recordings" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Reading prompts</h3>
+          <p>Reading Prompt module — patients read short passages aloud, record their voice, and track recordings over time for therapists to review.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Patient view: memories & personalized content -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>05</span> Patient Memories &amp; Personalization</div>
+      <div class="showcase-gallery showcase-gallery--2col">
+        <figure class="showcase-figure">
+          <img src="projects/cognify/14.jpeg" alt="My Memories — photos and memories shared by family" loading="lazy">
+          <figcaption>My Memories — patients see photos and memories shared by their family to support recall and connection.</figcaption>
+        </figure>
+        <figure class="showcase-figure">
+          <img src="projects/cognify/15.jpeg" alt="Face Cards — add photo cards for Family & Faces memory game" loading="lazy">
+          <figcaption>Face Cards — add photo cards used in the Family &amp; Faces memory game to strengthen recognition of familiar people.</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/17.jpeg" alt="Games & Questions — personalize questions for daily routine game" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Games &amp; questions personalization</h3>
+          <p>Games &amp; Questions settings — caregivers personalize the questions used in daily routine games for each patient.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings (doctor) -->
+    <section class="showcase-section">
+      <div class="showcase-section-label"><span>06</span> Settings &amp; Preferences</div>
+      <div class="showcase-row">
+        <div class="showcase-img-wrap showcase-img--wide">
+          <img src="projects/cognify/10.jpeg" alt="Doctor settings — profile, notifications, dark mode, language, security" loading="lazy">
+        </div>
+        <div class="showcase-caption">
+          <h3>Settings</h3>
+          <p>Doctor settings — manage profile, email and push notifications, dark mode, language, and security (passwords, 2FA).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="showcase-footer">
+      <a href="https://github.com/NourSN2004/CognifyReal" target="_blank" rel="noopener" class="showcase-github showcase-github--lg">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
         View Full Repository on GitHub →
       </a>

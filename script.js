@@ -1081,6 +1081,7 @@
 (function() {
   var showcases = {
     library: document.getElementById('showcaseOverlay'),
+    cognify: document.getElementById('showcaseOverlayCognify'),
     banking: document.getElementById('showcaseOverlayBanking'),
     chatvsdeep: document.getElementById('showcaseOverlayChatvsdeep'),
     exchangerate: document.getElementById('showcaseOverlayExchangerate'),
