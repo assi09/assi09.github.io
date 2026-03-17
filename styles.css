@@ -3114,6 +3114,12 @@ footer {
   align-items: center;
   gap: 24px;
 }
+.showcase-footer-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0;
+}
 .showcase-tech {
   display: flex;
   flex-wrap: wrap;
