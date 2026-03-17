@@ -32,11 +32,11 @@
     });
   }
 
-  // ── Preset: Prism ──
+  // ── Preset: Elegant Muted Gold ──
   var preset = {
-    color1: [5/255, 5/255, 5/255, 1],
-    color2: [102/255, 179/255, 255/255, 1],
-    color3: [255/255, 255/255, 255/255, 1],
+    color1: [28/255, 28/255, 28/255, 1],
+    color2: [191/255, 161/255, 129/255, 1],
+    color3: [244/255, 244/255, 244/255, 1],
     rotation: -50,
     proportion: 1,
     scale: 0.01,
@@ -454,13 +454,13 @@
 
   // ─── ACTIVE NAV ON SCROLL (with color-shifting tubelight) ───
   var sectionColors = {
-    home: { bg: 'rgba(0,87,255,0.08)', glow: 'rgba(0,87,255,0.5)', accent: 'var(--accent2)' },
-    about: { bg: 'rgba(255,77,0,0.08)', glow: 'rgba(255,77,0,0.5)', accent: 'var(--accent)' },
-    experience: { bg: 'rgba(0,200,150,0.08)', glow: 'rgba(0,200,150,0.5)', accent: 'var(--accent3)' },
-    projects: { bg: 'rgba(0,87,255,0.08)', glow: 'rgba(0,87,255,0.5)', accent: 'var(--accent2)' },
-    skills: { bg: 'rgba(147,51,234,0.08)', glow: 'rgba(147,51,234,0.5)', accent: '#9333ea' },
-    education: { bg: 'rgba(255,204,0,0.08)', glow: 'rgba(255,204,0,0.5)', accent: 'var(--accent4)' },
-    contact: { bg: 'rgba(255,77,0,0.08)', glow: 'rgba(255,77,0,0.5)', accent: 'var(--accent)' }
+    home: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
+    about: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },
+    experience: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
+    projects: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },
+    skills: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
+    education: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },
+    contact: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' }
   };
   var tubelight = document.getElementById('navTubelight');
   var sections = document.querySelectorAll('section[id]');
@@ -872,7 +872,7 @@
       var rect = sidenav.getBoundingClientRect();
       var x = e.clientX - rect.left;
       var y = e.clientY - rect.top;
-      navGlow.style.background = 'radial-gradient(300px circle at ' + x + 'px ' + y + 'px, rgba(0,87,255,0.06), rgba(255,77,0,0.03), transparent 70%)';
+      navGlow.style.background = 'radial-gradient(300px circle at ' + x + 'px ' + y + 'px, rgba(191,161,129,0.06), transparent 70%)';
     });
     sidenav.addEventListener('mouseleave', function() {
       navGlow.style.background = '';
@@ -924,8 +924,7 @@
     faviconCanvas.width = 32;
     faviconCanvas.height = 32;
     var fctx = faviconCanvas.getContext('2d');
-    var accentColors = ['#ff4d00', '#0057ff', '#00c896', '#ffcc00'];
-    var colorIndex = 0;
+    var accentColor = '#BFA181';
     var faviconLink = document.querySelector('link[rel="icon"]');
     if (!faviconLink) {
       faviconLink = document.createElement('link');
@@ -933,16 +932,11 @@
       document.head.appendChild(faviconLink);
     }
     function drawFavicon() {
-      var c1 = accentColors[colorIndex % accentColors.length];
-      var c2 = accentColors[(colorIndex + 1) % accentColors.length];
-      var grad = fctx.createLinearGradient(0, 0, 32, 32);
-      grad.addColorStop(0, c1);
-      grad.addColorStop(1, c2);
       fctx.clearRect(0, 0, 32, 32);
       // Rounded rect
       fctx.beginPath();
       fctx.roundRect(0, 0, 32, 32, 6);
-      fctx.fillStyle = grad;
+      fctx.fillStyle = accentColor;
       fctx.fill();
       // Letter K
       fctx.font = 'bold 18px system-ui, sans-serif';
@@ -951,10 +945,8 @@
       fctx.textBaseline = 'middle';
       fctx.fillText('K', 16, 17);
       faviconLink.href = faviconCanvas.toDataURL('image/png');
-      colorIndex++;
     }
     drawFavicon();
-    setInterval(drawFavicon, 3000);
   })();
 
 })();
@@ -1271,8 +1263,8 @@
 
   /* Particle system */
   var colors = [
-    'rgba(255,77,0,', 'rgba(0,87,255,',
-    'rgba(0,200,150,', 'rgba(147,51,234,'
+    'rgba(191,161,129,', 'rgba(212,197,176,',
+    'rgba(191,161,129,', 'rgba(212,197,176,'
   ];
   var ringRadii = [80, 120, 160, 200];
   var ringSpeeds = [10, -16, 22, -28];
@@ -1440,8 +1432,8 @@
                 }
               });
               /* Flash the content area */
-              gsap.fromTo(dot, { boxShadow: '0 0 0 0 rgba(255,77,0,0)' }, {
-                boxShadow: '0 0 30px 5px rgba(0,87,255,0.15)', duration: 0.4,
+              gsap.fromTo(dot, { boxShadow: '0 0 0 0 rgba(191,161,129,0)' }, {
+                boxShadow: '0 0 30px 5px rgba(191,161,129,0.12)', duration: 0.4,
                 yoyo: true, repeat: 1
               });
             }
@@ -1486,7 +1478,7 @@
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         r: 1.2 + Math.random() * 1.5,
-        color: i % 4 === 0 ? '255,77,0' : i % 4 === 1 ? '0,87,255' : i % 4 === 2 ? '0,200,150' : '255,204,0'
+        color: '191,161,129'
       });
     }
   }
@@ -1575,7 +1567,7 @@
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(255,204,0,' + alpha + ')';
+          ctx.strokeStyle = 'rgba(191,161,129,' + alpha + ')';
           ctx.lineWidth = 0.8;
           ctx.stroke();
         }

@@ -4,32 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 — Page Not Found | Karim Assi</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff4d00'/><stop offset='100%25' stop-color='%230057ff'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23g)'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23BFA181'/><text x='50%25' y='72%25' font-size='18' font-weight='bold' fill='%231C1C1C' text-anchor='middle' font-family='system-ui'>K</text></svg>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.bunny.net">
-<link rel="stylesheet" href="https://fonts.bunny.net/css?family=bebas-neue:400|space-grotesk:400,600&display=swap">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700&display=swap">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --ink: #111; --muted: #999; --bg: #fafaf8; --white: #fff;
-    --accent: #ff4d00; --accent2: #0057ff;
+    --ink: #1C1C1C; --muted: #6b6b6b; --bg: #F4F4F4; --white: #ffffff;
+    --accent: #BFA181;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --ink: #eee; --muted: #777; --bg: #0e0e12; --white: #161619; }
+    :root { --ink: #F4F4F4; --muted: #BFA181; --bg: #1C1C1C; --white: #252525; --accent: #BFA181; }
   }
   body {
     background: var(--bg); color: var(--ink);
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     padding: 40px 24px;
   }
   .code {
-    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 700;
     font-size: clamp(8rem, 20vw, 16rem);
     line-height: 1;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
+    color: var(--accent);
     margin-bottom: 16px;
     animation: float 4s ease-in-out infinite;
   }
@@ -38,7 +37,8 @@
     50% { transform: translateY(-12px); }
   }
   h1 {
-    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 700;
     font-size: 1.8rem; letter-spacing: 0.08em;
     margin-bottom: 12px;
   }
@@ -66,7 +66,7 @@
   .glitch::after {
     animation: glitch-bottom 3s ease-in-out infinite 0.15s;
     clip-path: inset(60% 0 0 0);
-    color: var(--accent2);
+    color: var(--accent);
   }
   @keyframes glitch-top {
     0%, 90%, 100% { transform: translate(0); }
