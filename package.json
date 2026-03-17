@@ -1,0 +1,23 @@
+{
+  "name": "mywebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assi09/assi09.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/assi09/assi09.github.io/issues"
+  },
+  "homepage": "https://github.com/assi09/assi09.github.io#readme",
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

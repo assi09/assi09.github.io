@@ -1092,6 +1092,10 @@
 
   function openShowcase(overlay) {
     if (!overlay) return;
+    /* Load images only when this showcase is opened (data-src → src; avoids loading ~51MB of project images on first visit) */
+    overlay.querySelectorAll('img[data-src]').forEach(function(img) {
+      img.src = img.dataset.src || '';
+    });
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
     overlay.scrollTop = 0;
