@@ -1591,7 +1591,7 @@ h2.section-title {
   line-height: 0.98;
   letter-spacing: -0.02em;
   color: var(--ink);
-  margin-bottom: 44px;
+  margin-bottom: 56px;
 }
 
 h2.section-title em {
@@ -3540,7 +3540,7 @@ footer {
   .hstat-label { font-size: 0.65rem; }
 
   /* Section spacing — fix title/text overlap on mobile */
-  h2.section-title { margin-bottom: 32px; line-height: 1.08; font-size: clamp(2.4rem, 8vw, 3.5rem); }
+  h2.section-title { margin-bottom: 38px; line-height: 1.08; font-size: clamp(2.4rem, 8vw, 3.5rem); }
   h2.section-title em { font-size: 0.85em; }
   .skills-intro, .projects-intro { margin-top: 0; }
 
