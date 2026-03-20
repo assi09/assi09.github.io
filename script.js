@@ -1231,10 +1231,11 @@
   var canvas = document.getElementById('orbitParticles');
   if (!orbit || !scene || !canvas) return;
   var ctx = canvas.getContext('2d');
-  var particles = [];
+  var orbitNodes = [];
   var dpr = window.devicePixelRatio || 1;
   var W, H, cx, cy;
   var ringRadii = [];
+  var ringNodeCounts = [8, 10, 12, 14];
 
   function resize() {
     var rect = orbit.getBoundingClientRect();
@@ -1247,6 +1248,17 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ringRadii = Array.from(scene.querySelectorAll('.orbit-ring')).map(function(ring) {
       return ring.getBoundingClientRect().width / 2;
+    });
+    orbitNodes = ringRadii.flatMap(function(radius, ringIndex) {
+      var count = ringNodeCounts[ringIndex] || 8;
+      return Array.from({ length: count }, function(_, nodeIndex) {
+        return {
+          ringIndex: ringIndex,
+          radius: radius,
+          phase: (Math.PI * 2 * nodeIndex) / count + ringIndex * 0.45,
+          size: 1.4 + (nodeIndex % 3) * 0.85
+        };
+      });
     });
   }
   resize();
@@ -1265,64 +1277,43 @@
     });
   }
 
-  /* Particle system */
+  /* Orbit nodes */
   var colors = [
     'rgba(191,161,129,', 'rgba(212,197,176,',
     'rgba(191,161,129,', 'rgba(212,197,176,'
   ];
-  var ringSpeeds = [10, -16, 22, -28];
-
-  function spawnParticle() {
-    var ri = Math.floor(Math.random() * 4);
-    var angle = Math.random() * Math.PI * 2;
-    var r = ringRadii[ri] + (Math.random() - 0.5) * 6;
-    particles.push({
-      x: cx + Math.cos(angle) * r,
-      y: cy + Math.sin(angle) * r,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      life: 1,
-      decay: 0.008 + Math.random() * 0.012,
-      size: 1 + Math.random() * 2,
-      color: colors[ri]
-    });
-  }
+  var ringSpeeds = [
+    (Math.PI * 2) / 10000,
+    -(Math.PI * 2) / 16000,
+    (Math.PI * 2) / 22000,
+    -(Math.PI * 2) / 28000
+  ];
 
   var orbitRunning = false;
   var isMobile = !window.matchMedia('(pointer: fine)').matches;
-  var maxParticles = isMobile ? 30 : 80;
 
-  function animate() {
+  function animate(now) {
     if (!orbitRunning) return;
     ctx.clearRect(0, 0, W, H);
 
-    /* Spawn new particles */
-    if (particles.length < maxParticles) {
-      spawnParticle();
-      if (!isMobile) spawnParticle();
-    }
-
-    /* Update & draw */
-    for (var i = particles.length - 1; i >= 0; i--) {
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= p.decay;
-      if (p.life <= 0) { particles.splice(i, 1); continue; }
+    orbitNodes.forEach(function(node) {
+      var angle = node.phase + now * ringSpeeds[node.ringIndex];
+      var x = cx + Math.cos(angle) * node.radius;
+      var y = cy + Math.sin(angle) * node.radius;
+      var alpha = isMobile ? 0.22 : 0.3;
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + (p.life * 0.5) + ')';
+      ctx.arc(x, y, node.size, 0, Math.PI * 2);
+      ctx.fillStyle = colors[node.ringIndex] + alpha + ')';
       ctx.fill();
 
-      /* Glow */
       if (!isMobile) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * p.life * 3, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + (p.life * 0.1) + ')';
+        ctx.arc(x, y, node.size * 3.4, 0, Math.PI * 2);
+        ctx.fillStyle = colors[node.ringIndex] + '0.08)';
         ctx.fill();
       }
-    }
+    });
 
     requestAnimationFrame(animate);
   }
