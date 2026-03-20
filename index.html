@@ -273,62 +273,71 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
     <div class="section-eyebrow reveal"><span class="num">04</span> Capabilities</div>
     <h2 class="section-title reveal">Skills</h2>
     <p class="skills-intro reveal reveal-text">From low-level performance work to AI products and polished team delivery. Hover around the stack and explore what I use to build, secure, and ship.</p>
-    <div class="skills-orbit reveal" id="skillsOrbit">
-      <canvas class="orbit-particles-canvas" id="orbitParticles"></canvas>
-      <div class="skills-orbit-scene" id="orbitScene">
-        <span class="skills-orbit-center">SKILLS</span>
-        <div class="orbit-ring"><span class="orbit-pill">Build Fast</span></div>
-        <div class="orbit-ring"><span class="orbit-pill">Ship Clean</span></div>
-        <div class="orbit-ring"><span class="orbit-pill">Secure by Design</span></div>
-        <div class="orbit-ring"><span class="orbit-pill">Collaborate Strong</span></div>
-      </div>
-    </div>
-    <div class="skills-grid reveal reveal-stagger">
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> Languages</p>
-        <div class="skill-tags">
-          <span class="stag key">Python</span><span class="stag key">C++</span>
-          <span class="stag key">JavaScript (Basics)</span><span class="stag">Kotlin</span>
-          <span class="stag">MATLAB</span><span class="stag">RISC-V Assembly</span><span class="stag">SQL</span>
+    <div class="skills-layout">
+      <div class="skills-orbit-panel reveal">
+        <p class="skills-panel-label">Operating Principles</p>
+        <div class="skills-orbit" id="skillsOrbit">
+          <canvas class="orbit-particles-canvas" id="orbitParticles"></canvas>
+          <div class="skills-orbit-scene" id="orbitScene">
+            <span class="skills-orbit-center">SKILLS</span>
+            <div class="orbit-ring"><span class="orbit-pill">Build Fast</span></div>
+            <div class="orbit-ring"><span class="orbit-pill">Ship Clean</span></div>
+            <div class="orbit-ring"><span class="orbit-pill">Secure by Design</span></div>
+            <div class="orbit-ring"><span class="orbit-pill">Collaborate Strong</span></div>
+          </div>
         </div>
+        <p class="skills-panel-note reveal-text">A compact view of how I approach engineering work before you get into the actual stack.</p>
       </div>
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> Frontend &amp; Mobile</p>
-        <div class="skill-tags">
-          <span class="stag key">React</span><span class="stag key">Angular</span>
-          <span class="stag">HTML</span><span class="stag">CSS</span><span class="stag">Android Studio</span><span class="stag">PyQt (GUI)</span>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> Backend &amp; APIs</p>
-        <div class="skill-tags">
-          <span class="stag key">Django REST</span><span class="stag key">Flask</span>
-          <span class="stag">FastAPI (Basics)</span><span class="stag">Microservices</span><span class="stag">REST / JSON</span>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> Databases &amp; Data</p>
-        <div class="skill-tags">
-          <span class="stag key">PostgreSQL</span><span class="stag key">MySQL</span>
-          <span class="stag">SQLite</span><span class="stag">Firebase (NoSQL)</span><span class="stag">Semantic Search</span>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> AI, Security &amp; DevOps</p>
-        <div class="skill-tags">
-          <span class="stag key">LLM Integration</span><span class="stag key">OpenAI API</span>
-          <span class="stag">Face Recognition</span><span class="stag">NLP</span><span class="stag">RAG</span>
-          <span class="stag">Git</span><span class="stag">GitHub</span><span class="stag">Docker</span>
-          <span class="stag">Linux (Basics)</span><span class="stag">OWASP ZAP</span><span class="stag">Secure Coding</span>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <p class="skill-cell-label"><span class="dot"></span> Collaboration &amp; Design</p>
-        <div class="skill-tags">
-          <span class="stag key">Jira</span><span class="stag">Trello</span><span class="stag">ClickUp</span><span class="stag">Miro</span>
-          <span class="stag">Slack</span><span class="stag">Microsoft Teams</span>
-          <span class="stag">Figma</span><span class="stag">Canva</span><span class="stag">CapCut</span>
-          <span class="stag">Word</span><span class="stag">Excel</span><span class="stag">PowerPoint</span><span class="stag">Google Docs</span>
+      <div class="skills-grid-panel reveal">
+        <p class="skills-panel-label">Core Stack</p>
+        <div class="skills-grid reveal reveal-stagger">
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> Languages</p>
+            <div class="skill-tags">
+              <span class="stag key">Python</span><span class="stag key">C++</span>
+              <span class="stag key">JavaScript (Basics)</span><span class="stag">Kotlin</span>
+              <span class="stag">MATLAB</span><span class="stag">RISC-V Assembly</span><span class="stag">SQL</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> Frontend &amp; Mobile</p>
+            <div class="skill-tags">
+              <span class="stag key">React</span><span class="stag key">Angular</span>
+              <span class="stag">HTML</span><span class="stag">CSS</span><span class="stag">Android Studio</span><span class="stag">PyQt (GUI)</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> Backend &amp; APIs</p>
+            <div class="skill-tags">
+              <span class="stag key">Django REST</span><span class="stag key">Flask</span>
+              <span class="stag">FastAPI (Basics)</span><span class="stag">Microservices</span><span class="stag">REST / JSON</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> Databases &amp; Data</p>
+            <div class="skill-tags">
+              <span class="stag key">PostgreSQL</span><span class="stag key">MySQL</span>
+              <span class="stag">SQLite</span><span class="stag">Firebase (NoSQL)</span><span class="stag">Semantic Search</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> AI, Security &amp; DevOps</p>
+            <div class="skill-tags">
+              <span class="stag key">LLM Integration</span><span class="stag key">OpenAI API</span>
+              <span class="stag">Face Recognition</span><span class="stag">NLP</span><span class="stag">RAG</span>
+              <span class="stag">Git</span><span class="stag">GitHub</span><span class="stag">Docker</span>
+              <span class="stag">Linux (Basics)</span><span class="stag">OWASP ZAP</span><span class="stag">Secure Coding</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <p class="skill-cell-label"><span class="dot"></span> Collaboration &amp; Design</p>
+            <div class="skill-tags">
+              <span class="stag key">Jira</span><span class="stag">Trello</span><span class="stag">ClickUp</span><span class="stag">Miro</span>
+              <span class="stag">Slack</span><span class="stag">Microsoft Teams</span>
+              <span class="stag">Figma</span><span class="stag">Canva</span><span class="stag">CapCut</span>
+              <span class="stag">Word</span><span class="stag">Excel</span><span class="stag">PowerPoint</span><span class="stag">Google Docs</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
