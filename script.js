@@ -1234,6 +1234,7 @@
   var particles = [];
   var dpr = window.devicePixelRatio || 1;
   var W, H, cx, cy;
+  var ringRadii = [];
 
   function resize() {
     var rect = orbit.getBoundingClientRect();
@@ -1244,6 +1245,9 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ringRadii = Array.from(scene.querySelectorAll('.orbit-ring')).map(function(ring) {
+      return ring.getBoundingClientRect().width / 2;
+    });
   }
   resize();
   window.addEventListener('resize', resize);
@@ -1266,7 +1270,6 @@
     'rgba(191,161,129,', 'rgba(212,197,176,',
     'rgba(191,161,129,', 'rgba(212,197,176,'
   ];
-  var ringRadii = [80, 120, 160, 200];
   var ringSpeeds = [10, -16, 22, -28];
 
   function spawnParticle() {

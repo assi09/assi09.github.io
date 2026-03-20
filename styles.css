@@ -2009,8 +2009,7 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 }
 
 .skills-orbit-panel {
-  position: sticky;
-  top: 36px;
+  position: relative;
 }
 
 .skills-grid-panel {
@@ -3811,7 +3810,10 @@ footer {
 .orbit-ring:nth-child(4) .orbit-pill { animation: orbit-counter-spin 22s linear infinite; }
 .orbit-ring:nth-child(5) .orbit-pill { animation: orbit-counter-spin-rev 28s linear infinite; }
 
-@keyframes orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 @keyframes orbit-counter-spin { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(-360deg); } }
 @keyframes orbit-counter-spin-rev { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(360deg); } }
 
