@@ -1163,21 +1163,12 @@
   var html = document.documentElement;
   var celestial = toggle ? toggle.querySelector('.theme-toggle-celestial') : null;
 
-  /* Check saved preference or system preference */
+  /* Check saved preference; default to light */
   var saved = localStorage.getItem('theme');
   if (saved) {
     html.setAttribute('data-theme', saved);
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    html.setAttribute('data-theme', 'dark');
-  }
-
-  /* Listen for system preference changes */
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      if (!localStorage.getItem('theme')) {
-        html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-      }
-    });
+  } else {
+    html.setAttribute('data-theme', 'light');
   }
 
   if (toggle) {
