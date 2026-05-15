@@ -1210,8 +1210,15 @@
 
   /* Close on nav link click */
   sidenav.querySelectorAll('a[href^="#"]').forEach(function(link) {
-    link.addEventListener('click', function() {
+    link.addEventListener('click', function(e) {
       if (sidenav.classList.contains('mobile-open')) toggle();
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        history.replaceState(null, '', location.pathname + location.search);
+      }
     });
   });
 })();
