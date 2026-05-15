@@ -1585,3 +1585,22 @@
     if (particles.length === 0) initParticles();
   });
 })();
+
+// ── Projects expand/collapse ──
+(function() {
+  var btn = document.getElementById('projectsToggle');
+  var more = document.getElementById('projectsMore');
+  if (!btn || !more) return;
+  btn.addEventListener('click', function() {
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    if (expanded) {
+      more.classList.remove('expanded');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.childNodes[0].textContent = 'Show 6 more projects ';
+    } else {
+      more.classList.add('expanded');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.childNodes[0].textContent = 'Show less ';
+    }
+  });
+})();
