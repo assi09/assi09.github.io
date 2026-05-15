@@ -2070,7 +2070,8 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 .skill-cell:hover { background: var(--bg); }
 
 .skill-cell:nth-child(3n) { border-right: none; }
-.skill-cell:nth-child(n+4) { border-bottom: none; }
+.skill-cell:last-child { grid-column: 1 / -1; border-right: none; border-bottom: none; }
+.skill-cell:last-child::after { background: linear-gradient(135deg, rgba(191,161,129,0.05), transparent); }
 
 .skill-cell-label {
   font-size: 0.65rem;
