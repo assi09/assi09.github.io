@@ -2360,25 +2360,23 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 
 /* ── Projects expand/collapse ── */
 .projects-more {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  grid-column: 1 / -1;
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.6s var(--ease-out-expo), opacity 0.4s ease;
+  transition: max-height 0.7s var(--ease-out-expo), opacity 0.4s ease;
 }
 .projects-more.expanded {
-  max-height: 2000px;
+  max-height: 3000px;
   opacity: 1;
+}
+.projects-more .projects-grid {
+  padding-top: 20px;
 }
 
 .projects-toggle-wrap {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 28px;
 }
 .projects-toggle {
   display: inline-flex;
