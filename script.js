@@ -1606,16 +1606,17 @@
   var btn = document.getElementById('projectsToggle');
   var more = document.getElementById('projectsMore');
   if (!btn || !more) return;
+  var btnText = btn.querySelector('.projects-toggle-text');
   btn.addEventListener('click', function() {
     var expanded = btn.getAttribute('aria-expanded') === 'true';
     if (expanded) {
       more.classList.remove('expanded');
       btn.setAttribute('aria-expanded', 'false');
-      btn.childNodes[0].textContent = 'Show 6 more projects ';
+      if (btnText) btnText.textContent = 'Show 6 more projects';
     } else {
       more.classList.add('expanded');
       btn.setAttribute('aria-expanded', 'true');
-      btn.childNodes[0].textContent = 'Show less ';
+      if (btnText) btnText.textContent = 'Show less';
     }
   });
 })();
