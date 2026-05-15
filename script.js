@@ -425,7 +425,7 @@
   // ─── SECTION ORDER ───
   var mainEl = document.querySelector('main');
   if (mainEl) {
-    ['home', 'about', 'experience', 'projects', 'skills', 'education', 'contact'].forEach(function(id) {
+    ['home', 'about', 'skills', 'freelance', 'projects', 'experience', 'education', 'contact'].forEach(function(id) {
       var sec = document.getElementById(id);
       if (sec) mainEl.appendChild(sec);
     });
@@ -1611,7 +1611,7 @@
     if (expanded) {
       more.classList.remove('expanded');
       btn.setAttribute('aria-expanded', 'false');
-      btn.childNodes[0].textContent = 'Show 6 more projects ';
+      btn.childNodes[0].textContent = 'Show 4 more projects ';
     } else {
       more.classList.add('expanded');
       btn.setAttribute('aria-expanded', 'true');

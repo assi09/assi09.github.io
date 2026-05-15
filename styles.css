@@ -2194,6 +2194,11 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 /* ─── UNIFIED PROJECT CARDS ─── */
 .projects-grid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+#freelance .projects-grid {
   grid-template-columns: 1fr 1fr;
   gap: 26px;
 }
@@ -2204,8 +2209,8 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border-soft);
-  border-radius: 24px;
-  padding: 34px 34px 30px;
+  border-radius: 18px;
+  padding: 24px 24px 20px;
   text-decoration: none;
   color: var(--ink);
   overflow: hidden;
@@ -2250,12 +2255,12 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 }
 
 .proj-card-eyebrow {
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
