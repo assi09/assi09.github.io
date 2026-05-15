@@ -457,6 +457,7 @@
     home: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
     about: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },
     experience: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
+    freelance: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
     projects: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },
     skills: { bg: 'rgba(191,161,129,0.08)', glow: 'rgba(191,161,129,0.35)', accent: 'var(--accent)' },
     education: { bg: 'rgba(212,197,176,0.08)', glow: 'rgba(212,197,176,0.35)', accent: 'var(--accent2)' },

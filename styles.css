@@ -3473,7 +3473,7 @@ footer {
 @media (max-width: 1100px) {
   :root { --nav-w: 240px; }
   :root { --section-space-x: 60px; }
-  .white-section, #about, #projects, #skills, #experience, #contact { padding: 92px 60px; }
+  .white-section, #about, #projects, #freelance, #skills, #experience, #contact { padding: 92px 60px; }
   .projects-grid { grid-template-columns: 1fr; }
   .exp-timeline::before { left: 130px; }
   .exp-item::before { left: 125px; }
@@ -3543,7 +3543,7 @@ footer {
   .hero-content { padding: 80px 32px 68px; }
   .hero-stats-bar { grid-template-columns: 1fr; gap: 12px; padding: 0 32px 22px; }
   .hstat { padding: 22px 22px 20px; box-shadow: 0 12px 28px rgba(0,0,0,0.16); }
-  .white-section, #about, #projects, #skills, #experience { padding: 72px 32px; }
+  .white-section, #about, #projects, #freelance, #skills, #experience { padding: 72px 32px; }
   #contact { padding: 72px 32px; }
   .white-section::before { left: 32px; right: 32px; }
   footer { padding: 24px 32px; }
