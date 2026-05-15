@@ -425,7 +425,7 @@
   // ─── SECTION ORDER ───
   var mainEl = document.querySelector('main');
   if (mainEl) {
-    ['home', 'about', 'skills', 'freelance', 'projects', 'experience', 'education', 'contact'].forEach(function(id) {
+    ['home', 'about', 'experience', 'freelance', 'projects', 'skills', 'education', 'contact'].forEach(function(id) {
       var sec = document.getElementById(id);
       if (sec) mainEl.appendChild(sec);
     });
