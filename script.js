@@ -1611,7 +1611,7 @@
     if (expanded) {
       more.classList.remove('expanded');
       btn.setAttribute('aria-expanded', 'false');
-      btn.childNodes[0].textContent = 'Show 4 more projects ';
+      btn.childNodes[0].textContent = 'Show 6 more projects ';
     } else {
       more.classList.add('expanded');
       btn.setAttribute('aria-expanded', 'true');
