@@ -1537,8 +1537,6 @@ h2.section-title .text-shimmer {
   padding: var(--section-space) var(--section-space-x);
   position: relative;
   transition: background 0.4s, color 0.4s;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
 }
 
 /* Section divider line animation */

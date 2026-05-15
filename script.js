@@ -9,6 +9,7 @@
 
   if (!intro || !canvas) {
     document.body.classList.remove('has-intro');
+    document.documentElement.style.overflow = '';
     return;
   }
 
@@ -16,6 +17,7 @@
   if (!gl) {
     // WebGL2 not supported — skip intro
     document.body.classList.remove('has-intro');
+    document.documentElement.style.overflow = '';
     intro.remove();
     if (spacer) spacer.remove();
     return;
@@ -245,9 +247,12 @@
 
       intro.remove();
       if (spacer) spacer.remove();
-      window.scrollTo(0, 0);
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
       document.body.classList.remove('has-intro');
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
 
       window.removeEventListener('resize', resize);
 
@@ -261,7 +266,8 @@
   }
 
   // ── Start ──
-  // Prevent scrolling during intro
+  // Prevent scrolling during intro (lock both html and body)
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 
   // Show name after brief delay
@@ -306,16 +312,18 @@
     startEntranceAnimations();
   };
 
-  // Safety: if intro never completes, reveal content after 2.5s
+  // Safety: if intro never completes after 8s, unlock and reveal content
   setTimeout(function() {
     if (document.body.classList.contains('has-intro')) {
       document.body.classList.remove('has-intro');
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      window.scrollTo(0, 0);
     }
     if (!window.__entranceDone && typeof startEntranceAnimations === 'function') {
       startEntranceAnimations();
     }
-  }, 2500);
+  }, 8000);
 
   if (hasIntro) {
     // Hide loader immediately — intro takes over

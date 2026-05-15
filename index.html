@@ -44,9 +44,12 @@
 <a href="#home" class="skip-to-content">Skip to content</a>
 <script>
 if('scrollRestoration' in history) history.scrollRestoration='manual';
-if(window.location.hash) history.replaceState(null,null,' ');
+history.replaceState(null,'',location.pathname+location.search);
+document.documentElement.style.overflow='hidden';
 document.documentElement.style.scrollBehavior='auto';
 window.scrollTo(0,0);
+document.addEventListener('DOMContentLoaded',function(){window.scrollTo(0,0);});
+window.addEventListener('load',function(){window.scrollTo(0,0);});
 window.addEventListener('beforeunload',function(){window.scrollTo(0,0);});
 setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
 </script>
@@ -359,7 +362,7 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
     <div class="section-eyebrow reveal"><span class="num">03</span> Client Work</div>
     <h2 class="section-title reveal">Freelance</h2>
     <p class="projects-intro reveal reveal-text">Websites built and deployed for paying clients — custom domains, live in production.</p>
-    <div class="proj-grid">
+    <div class="projects-grid">
 
       <a class="proj-card reveal" href="https://aleph-ci.com/" target="_blank" rel="noopener">
         <div class="proj-card-eyebrow"><span class="proj-card-num">01</span> Mar 2026 — Present</div>
@@ -385,7 +388,7 @@ setTimeout(function(){document.documentElement.style.scrollBehavior='';},200);
         </div>
       </a>
 
-    </div>
+    </div><!-- /.projects-grid -->
   </section>
 
   <!-- ── PROJECTS ── -->
