@@ -2063,33 +2063,25 @@ h2.section-title .char { animation: charFallback 0s 4s forwards; }
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--rule);
+  gap: 40px 48px;
 }
 
 #freelance .projects-grid {
   grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--rule);
+  gap: 40px 48px;
 }
-#freelance .proj-card:nth-child(2n) { border-right: none; padding-right: 0; }
-#freelance .proj-card:nth-child(3n) { border-right: 1px solid var(--rule); }
 
 .proj-card {
   position: relative;
   display: flex;
   flex-direction: column;
   background: transparent;
-  border-bottom: 1px solid var(--rule);
-  border-right: 1px solid var(--rule);
   border-radius: 0;
-  padding: 24px 20px 20px 0;
+  padding: 0;
   text-decoration: none;
   color: var(--ink);
   transition: opacity 0.3s;
 }
-
-.proj-card:nth-child(3n) { border-right: none; padding-right: 0; }
 
 .proj-card:hover { opacity: 0.75; }
 .proj-card:hover .proj-card-name { color: var(--accent); opacity: 1; }
