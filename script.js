@@ -600,7 +600,7 @@
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
       // Fallback — show everything and run hero counters
       runRevealFallback();
-      document.querySelectorAll('.hero-tag, .hero-subtitle, .hero-actions, .hero-stats-bar, .hero-scroll-hint').forEach(function(el) {
+      document.querySelectorAll('.hero-meta, .hero-tagline, .hero-actions, .hero-stats').forEach(function(el) {
         el.style.opacity = '1';
         el.style.transform = 'none';
         el.style.clipPath = 'none';
@@ -621,12 +621,11 @@
     // Hero entrance sequence
     var heroTl = gsap.timeline({ delay: 0.1 });
 
-    heroTl.to('.hero-tag', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    heroTl.to('.hero-meta', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
       .call(function() { if (heroTitle) heroTitle.classList.add('animated'); }, null, '-=0.3')
-      .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
+      .to('.hero-tagline', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
       .to('.hero-actions', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
-      .to('.hero-stats-bar', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
-      .to('.hero-scroll-hint', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2');
+      .to('.hero-stats', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3');
 
     // Counter animation on hero stats
     heroTl.call(function() {
@@ -671,21 +670,21 @@
     });
 
     // Hero parallax on scroll
-    gsap.fromTo('.hero-content',
+    gsap.fromTo('.hero-inner',
       { y: 0, opacity: 1 },
-      { y: 120, opacity: 0.4, ease: 'none', immediateRender: false,
+      { y: 80, opacity: 0.5, ease: 'none', immediateRender: false,
         scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1,
           onLeaveBack: function() {
-            gsap.set('.hero-content', { y: 0, opacity: 1 });
+            gsap.set('.hero-inner', { y: 0, opacity: 1 });
           }
         }
     });
-    gsap.fromTo('.hero-stats-bar',
+    gsap.fromTo('.hero-stats',
       { y: 0, opacity: 1 },
       { y: 30, opacity: 0.8, ease: 'none', immediateRender: false,
         scrollTrigger: { trigger: '#home', start: '60% top', end: 'bottom top', scrub: 1,
           onLeaveBack: function() {
-            gsap.set('.hero-stats-bar', { y: 0, opacity: 1 });
+            gsap.set('.hero-stats', { y: 0, opacity: 1 });
           }
         }
     });
@@ -695,14 +694,6 @@
         scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.5 }
     });
 
-    // Parallax on hero shapes
-    document.querySelectorAll('.hero-shape').forEach(function(shape, i) {
-      gsap.fromTo(shape,
-        { y: 0 },
-        { y: -80 * (i + 1), ease: 'none', immediateRender: false,
-          scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 }
-      });
-    });
 
     // Skill tags stagger with elastic feel
     document.querySelectorAll('.skill-tags').forEach(function(container) {
@@ -775,23 +766,6 @@
     revs.forEach(function(el) { rObs.observe(el); });
   }
 
-  // ─── MOUSE PARALLAX ON HERO SHAPES (throttled, pointer devices only) ───
-  var shapeRaf;
-  var heroShapes = document.querySelectorAll('.hero-shape');
-  if (window.matchMedia('(pointer: fine)').matches) {
-    window.addEventListener('mousemove', function(e) {
-      if (shapeRaf || window.scrollY > window.innerHeight) return;
-      shapeRaf = requestAnimationFrame(function() {
-        shapeRaf = null;
-        var x = (e.clientX / window.innerWidth - 0.5) * 20;
-        var y = (e.clientY / window.innerHeight - 0.5) * 20;
-        heroShapes.forEach(function(el, i) {
-          var f = (i + 1) * 0.4;
-          if (typeof gsap !== 'undefined') gsap.to(el, { x: x * f, y: y * f, duration: 1, ease: 'power2.out' });
-        });
-      });
-    });
-  }
 
   // ─── MOUSE-DEPENDENT EFFECTS (pointer devices only) ───
   var isPointerFine = window.matchMedia('(pointer: fine)').matches;
